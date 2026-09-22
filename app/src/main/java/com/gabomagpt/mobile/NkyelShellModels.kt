@@ -1,4 +1,4 @@
-package com.�KYEL AI.mobile
+package com.gabomagpt.mobile
 
 import androidx.compose.ui.graphics.Color
 
@@ -194,13 +194,13 @@ data class ShellUiState(
 )
 
 object NkyelPolicyText {
-    const val FOOTER_CHAT = "�KYEL AI peut faire des erreurs. Vérifiez les informations importantes."
+    const val FOOTER_CHAT = "Ñkyel AI peut faire des erreurs. Vérifiez les informations importantes."
     const val FOOTER_PAGE = "Propulsé par SmartAndJ AI Tech • Conçu par ANDJ"
     const val INPUT_FOOTER = "PROPULSÉ PAR SMARTANDJ AI TECH"
     const val AGENT_HEADER = "AUTOMATA V2.0 • PROPELLED BY SMARTANDJ AI TECH"
 
     val PRIVACY = """
-�KYEL AI traite les directives, messages, fichiers joints et réglages locaux pour fournir la conversation, les artefacts et les fonctions Automata. Les contenus sensibles peuvent être protégés par le Coffre-Fort Souverain, qui représente le mode de chiffrement renforcé côté expérience mobile. Le Radar LOXO et Invoquer LOXO utilisent les sources externes ou documentaires activées par l'utilisateur pour enrichir les réponses et peuvent produire des citations, résumés et artefacts dérivés.
+Ñkyel AI traite les directives, messages, fichiers joints et réglages locaux pour fournir la conversation, les artefacts et les fonctions Automata. Les contenus sensibles peuvent être protégés par le Coffre-Fort Souverain, qui représente le mode de chiffrement renforcé côté expérience mobile. Le Radar LOXO et Invoquer LOXO utilisent les sources externes ou documentaires activées par l'utilisateur pour enrichir les réponses et peuvent produire des citations, résumés et artefacts dérivés.
 
 Les conversations peuvent être réutilisées pour la continuité d'expérience, l'historique En piste et l'amélioration du confort produit, selon le profil choisi et les paramètres actifs. Le Mode Ombre réduit la persistance visible dans l'interface et privilégie un comportement discret. Les pièces jointes relevées via Relever un indice sont affichées en prévisualisation avant l'envoi et peuvent être retirées à tout moment avant Lancer.
 
@@ -208,8 +208,8 @@ Les réglages de style d'écriture, taille des caractères, thème et force acti
     """.trimIndent()
 
     val TERMS = """
-En utilisant �KYEL AI, l'utilisateur accepte que les réponses puissent inclure du contenu généré, des approximations et des erreurs de synthèse. Les artefacts produits — texte, MD, HTML, code, PDF, Word, Excel ou PowerPoint — doivent être relus avant tout usage juridique, médical, financier, administratif ou commercial critique. Les limites du plan libre AURATA s'appliquent à la génération d'artefacts avancés et peuvent restreindre le volume ou le type de fichiers rendus.
+En utilisant Ñkyel AI, l'utilisateur accepte que les réponses puissent inclure du contenu généré, des approximations et des erreurs de synthèse. Les artefacts produits — texte, MD, HTML, code, PDF, Word, Excel ou PowerPoint — doivent être relus avant tout usage juridique, médical, financier, administratif ou commercial critique. Les limites du plan libre AURATA s'appliquent à la génération d'artefacts avancés et peuvent restreindre le volume ou le type de fichiers rendus.
 
-Le moteur �KYEL AI AUTOMATA V2.0 est une couche d'orchestration produit. Certaines capacités peuvent faire appel à des services de génération, de recherche ou d'analyse selon la force active. Les compétences agentiques plus profondes, notamment sur ONYX, sont destinées à s'étendre avec de nouveaux skills, automatismes et intégrations.
+Le moteur Ñkyel AI AUTOMATA V2.0 est une couche d'orchestration produit. Certaines capacités peuvent faire appel à des services de génération, de recherche ou d'analyse selon la force active. Les compétences agentiques plus profondes, notamment sur ONYX, sont destinées à s'étendre avec de nouveaux skills, automatismes et intégrations.
     """.trimIndent()
 }

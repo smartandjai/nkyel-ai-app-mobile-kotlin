@@ -1,4 +1,4 @@
-package com.ÑKYEL AI.mobile
+package com.gabomagpt.mobile
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode

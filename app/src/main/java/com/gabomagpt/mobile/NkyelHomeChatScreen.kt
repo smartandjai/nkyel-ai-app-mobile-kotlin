@@ -1,4 +1,4 @@
-package com.ÑKYEL AI.mobile
+package com.gabomagpt.mobile
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
@@ -263,7 +263,7 @@ fun NkyelTopBar(
                         ) {
                             PulsingGoldDot(theme.primary)
                             Text(
-                                "ÑKYEL AI",
+                                "Ã‘kyel AI",
                                 color = theme.text,
                                 style = MaterialTheme.typography.titleMedium,
                                 fontWeight = FontWeight.SemiBold

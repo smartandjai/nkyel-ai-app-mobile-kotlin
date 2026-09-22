@@ -1,10 +1,10 @@
-package com.ÑKYEL AI.mobile
+package com.gabomagpt.mobile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.smartandj.ÑKYEL AI.data.remote.TavilyService
-import com.smartandj.ÑKYEL AI.data.remote.dto.ChatStreamEvent
-import com.smartandj.ÑKYEL AI.domain.usecase.SendChatMessageUseCase
+import com.smartandj.gabomagpt.data.remote.TavilyService
+import com.smartandj.gabomagpt.data.remote.dto.ChatStreamEvent
+import com.smartandj.gabomagpt.domain.usecase.SendChatMessageUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.UUID
 import javax.inject.Inject
@@ -37,7 +37,7 @@ class NkyelShellViewModel @Inject constructor(
             ChatMessage(
                 id = "m1",
                 role = "assistant",
-                content = "La forÃªt s'Ã©veille... ÑKYEL AI AUTOMATA V2.0 est prÃªt.",
+                content = "La forÃªt s'Ã©veille... Ã‘kyel AI AUTOMATA V2.0 est prÃªt.",
                 artifacts = listOf(
                     ArtifactCard(
                         "a0",
@@ -257,7 +257,7 @@ class NkyelShellViewModel @Inject constructor(
                 id = UUID.randomUUID().toString(),
                 title = "Synthese.md",
                 kind = ArtifactKind.MARKDOWN,
-                content = "# SynthÃ¨se\n\n$body\n\n- Force: ${model.label}\n- Origine: ÑKYEL AI AUTOMATA V2.0"
+                content = "# SynthÃ¨se\n\n$body\n\n- Force: ${model.label}\n- Origine: Ã‘kyel AI AUTOMATA V2.0"
             ),
             ArtifactCard(
                 id = UUID.randomUUID().toString(),

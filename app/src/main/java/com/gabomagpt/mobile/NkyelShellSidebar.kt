@@ -1,4 +1,4 @@
-package com.ÑKYEL AI.mobile
+package com.gabomagpt.mobile
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -66,7 +66,7 @@ fun NkyelSidebar(
                 PulsingGoldDot(theme.primary)
                 IbogaAiIcon(theme.primary, Modifier.size(18.dp))
                 Text(
-                    "ÑKYEL AI",
+                    "Ã‘kyel AI",
                     color = theme.text,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold

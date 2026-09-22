@@ -1,4 +1,4 @@
-package com.ÑKYEL AI.mobile
+package com.gabomagpt.mobile
 
 import android.content.Context
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
@@ -20,7 +20,7 @@ class NkyelSettingsStore @Inject constructor(
     @ApplicationContext context: Context
 ) {
     private val dataStore = PreferenceDataStoreFactory.create(
-        produceFile = { context.preferencesDataStoreFile("ÑKYEL AI_settings.preferences_pb") }
+        produceFile = { context.preferencesDataStoreFile("Ã‘kyel AI_settings.preferences_pb") }
     )
 
     private object Keys {
