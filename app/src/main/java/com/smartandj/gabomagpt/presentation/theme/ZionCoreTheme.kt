@@ -118,6 +118,7 @@ data class GabomaThemeColors(
     val textMuted: Color,
     val border: Color,
     val error: Color = GabomaColors.ErrorRed,
+    val success: Color = GabomaColors.SuccessGreen,
     val isLight: Boolean = false
 )
 
@@ -132,6 +133,7 @@ fun resolveGabomaColors(theme: GabomaThemeType): GabomaThemeColors {
         textSecondary = def.textSecondary,
         textMuted = def.textTertiary,
         border = def.accentPrimary.copy(alpha = 0.08f),
+        success = GabomaColors.SuccessGreen,
         isLight = theme.isLight
     )
 }

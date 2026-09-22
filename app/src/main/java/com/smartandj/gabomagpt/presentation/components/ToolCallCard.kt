@@ -30,7 +30,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.smartandj.gabomagpt.stream.GabomaStreamEvent
+import com.smartandj.gabomagpt.stream.NkyelStreamEvent
 
 /**
  * ToolCallCard — Repliable card showing a tool invocation.
@@ -45,9 +45,9 @@ import com.smartandj.gabomagpt.stream.GabomaStreamEvent
  */
 @Composable
 fun ToolCallCard(
-    toolStart: GabomaStreamEvent.ToolStart,
-    toolEnd: GabomaStreamEvent.ToolEnd? = null,
-    toolProgress: GabomaStreamEvent.ToolProgress? = null,
+    toolStart: NkyelStreamEvent.ToolStart,
+    toolEnd: NkyelStreamEvent.ToolEnd? = null,
+    toolProgress: NkyelStreamEvent.ToolProgress? = null,
     modifier: Modifier = Modifier
 ) {
     var isExpanded by remember { mutableStateOf(false) }
@@ -133,7 +133,7 @@ fun ToolCallCard(
             if (isRunning && toolProgress?.progress != null) {
                 Spacer(modifier = Modifier.height(6.dp))
                 LinearProgressIndicator(
-                    progress = { toolProgress.progress },
+                    progress = toolProgress.progress,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(2.dp)

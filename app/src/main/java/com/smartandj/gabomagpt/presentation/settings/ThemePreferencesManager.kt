@@ -35,7 +35,12 @@ class ThemePreferencesManager(private val dataStore: DataStore<Preferences>) {
             ?: DEFAULT_THEME
         
         try {
-            GabomaThemeType.valueOf(themeString)
+            when (themeString) {
+                "OBSIDIAN" -> GabomaThemeType.NUIT_LOPE
+                "NOIR_OLED" -> GabomaThemeType.BLACK_PANTHER
+                "BLANC_EMERAUDE" -> GabomaThemeType.AURORE_OGOUE
+                else -> GabomaThemeType.valueOf(themeString)
+            }
         } catch (e: IllegalArgumentException) {
             // Fallback if theme string is invalid
             GabomaThemeType.BLACK_PANTHER
@@ -48,7 +53,12 @@ class ThemePreferencesManager(private val dataStore: DataStore<Preferences>) {
     suspend fun getCurrentTheme(): GabomaThemeType {
         val themeString = dataStore.data.map { it[THEME_KEY] ?: DEFAULT_THEME }.first()
         return try {
-            GabomaThemeType.valueOf(themeString)
+            when (themeString) {
+                "OBSIDIAN" -> GabomaThemeType.NUIT_LOPE
+                "NOIR_OLED" -> GabomaThemeType.BLACK_PANTHER
+                "BLANC_EMERAUDE" -> GabomaThemeType.AURORE_OGOUE
+                else -> GabomaThemeType.valueOf(themeString)
+            }
         } catch (e: IllegalArgumentException) {
             GabomaThemeType.BLACK_PANTHER
         }

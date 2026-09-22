@@ -16,6 +16,7 @@ import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
@@ -370,7 +371,6 @@ fun GabomaMobileApp() {
     }
 }
 
-@Composable
 private fun themedBackground(mode: GabomaThemeMode): Color = when (mode) {
     GabomaThemeMode.EQUATORIAL_GOLD -> AbyssBlack
     GabomaThemeMode.ABYSS -> Color(0xFF050507)

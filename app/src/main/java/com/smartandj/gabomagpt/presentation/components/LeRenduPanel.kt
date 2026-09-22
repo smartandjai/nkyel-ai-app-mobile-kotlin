@@ -215,10 +215,11 @@ enum class ArtifactType {
 /**
  * Extension function for spring animation parameters
  */
-fun spring(
+private fun <T> spring(
     dampingRatio: Float = 0.85f,
     stiffness: Float = 340f
-) = androidx.compose.animation.core.spring(
+): androidx.compose.animation.core.SpringSpec<T> = androidx.compose.animation.core.spring(
     dampingRatio = dampingRatio,
     stiffness = stiffness
 )
+

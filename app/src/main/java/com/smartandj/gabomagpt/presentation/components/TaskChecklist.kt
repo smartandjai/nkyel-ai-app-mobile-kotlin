@@ -19,7 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.smartandj.gabomagpt.stream.GabomaStreamEvent
+import com.smartandj.gabomagpt.stream.NkyelStreamEvent
 
 /**
  * TaskChecklist — Manus-style step checklist.
@@ -33,7 +33,7 @@ import com.smartandj.gabomagpt.stream.GabomaStreamEvent
  */
 @Composable
 fun TaskChecklist(
-    todos: List<GabomaStreamEvent.TodoItem>,
+    todos: List<NkyelStreamEvent.TodoItem>,
     modifier: Modifier = Modifier
 ) {
     if (todos.isEmpty()) return
@@ -72,7 +72,7 @@ fun TaskChecklist(
                 // Progress bar
                 Spacer(modifier = Modifier.weight(1f))
                 LinearProgressIndicator(
-                    progress = { if (todos.isNotEmpty()) completed.toFloat() / todos.size else 0f },
+                    progress = if (todos.isNotEmpty()) completed.toFloat() / todos.size else 0f,
                     modifier = Modifier
                         .width(60.dp)
                         .height(3.dp)
@@ -102,7 +102,7 @@ fun TaskChecklist(
 
 @Composable
 private fun TaskChecklistItem(
-    todo: GabomaStreamEvent.TodoItem,
+    todo: NkyelStreamEvent.TodoItem,
     modifier: Modifier = Modifier
 ) {
     Row(

@@ -87,7 +87,7 @@ class AdvancedStreamingService @Inject constructor(
      */
     fun streamHighPerformance(
         message: String,
-        model: GabomaChatModel
+        model: NkyelChatModel
     ): Flow<ChatStreamEvent> = groqService
         .streamChat(message, model)
         .buffer(capacity = 128) // Larger buffer for high throughput
@@ -105,7 +105,7 @@ class AdvancedStreamingService @Inject constructor(
      */
     fun streamStandard(
         message: String,
-        model: GabomaChatModel
+        model: NkyelChatModel
     ): Flow<ChatStreamEvent> = groqService
         .streamChat(message, model)
         .buffer(capacity = 64)
