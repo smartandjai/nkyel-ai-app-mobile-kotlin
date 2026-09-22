@@ -40,7 +40,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.Color
 import com.smartandj.gabomagpt.presentation.theme.*
 import com.smartandj.gabomagpt.presentation.chat.IbogaAiIcon
@@ -396,7 +395,6 @@ fun AntrScreen(
                         .clip(RoundedCornerShape(12.dp))
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
-                            indication = null,
                             onClick = {}
                         )
                         .padding(horizontal = 16.dp, vertical = 14.dp),
@@ -637,7 +635,6 @@ fun SettingsRow(
             .clip(RoundedCornerShape(12.dp))
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
-                indication = null,
                 onClick = onClick
             )
             .padding(horizontal = 16.dp, vertical = 14.dp),
@@ -772,10 +769,10 @@ private fun ThemePickerSheet(
     val gabomaColors = LocalGabomaColors.current
     val themes = listOf(
         GabomaThemeType.BLACK_PANTHER to "⚫ Black Panther",
-        GabomaThemeType.NUIT_LOPE to "🌿 Nuit Lopé",
+        GabomaThemeType.OBSIDIAN to "🌿 Obsidian",
         GabomaThemeType.NOIR_OLED to "◾ Noir OLED",
         GabomaThemeType.BLEU_NUIT to "🌙 Bleu Nuit",
-        GabomaThemeType.AURORE_OGOUE to "☀️ Aurore Ogooué"
+        GabomaThemeType.BLANC_EMERAUDE to "☀️ Blanc Émeraude"
     )
 
     AlertDialog(

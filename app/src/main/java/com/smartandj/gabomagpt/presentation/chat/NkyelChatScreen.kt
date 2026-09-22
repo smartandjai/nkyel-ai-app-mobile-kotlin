@@ -54,7 +54,6 @@ import kotlin.math.roundToInt
 
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.*
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
@@ -366,7 +365,7 @@ fun NkyelChatScreen(
                         colors = ButtonDefaults.buttonColors(containerColor = accent, contentColor = bg),
                         shape = RoundedCornerShape(14.dp),
                     ) {
-                        Icon(imageVector = Icons.Filled.Add, contentDescription = null, modifier = Modifier.size(18.dp))
+                        Icon(painter = painterResource(id = R.drawable.Add), contentDescription = null, modifier = Modifier.size(18.dp))
                         Spacer(modifier = Modifier.width(8.dp))
                         Text("Nouvelle Piste", fontSize = 14.sp, fontWeight = FontWeight.Medium)
                     }
@@ -889,7 +888,7 @@ private fun ComposerBar(
                         border = BorderStroke(1.dp, border),
                     ) {
                         Box(contentAlignment = Alignment.Center) {
-                            Icon(imageVector = Icons.Filled.Add, contentDescription = "Ajouter", tint = textSecondary, modifier = Modifier.size(16.dp))
+                            Icon(painter = painterResource(id = R.drawable.Add), contentDescription = "Ajouter", tint = textSecondary, modifier = Modifier.size(16.dp))
                         }
                     }
                 }

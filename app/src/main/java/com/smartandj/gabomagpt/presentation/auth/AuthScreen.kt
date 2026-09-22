@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -47,7 +46,7 @@ fun AuthScreen(modifier: Modifier = Modifier) {
                 painter = androidx.compose.ui.res.painterResource(id = com.smartandj.gabomagpt.R.drawable.ic_nkyel),
                 contentDescription = "Ñkyel AI",
                 tint = GoldAccent,
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier.androidx.compose.foundation.layout.size(48.dp)
             )
             Spacer(modifier = Modifier.height(12.dp))
             Text(

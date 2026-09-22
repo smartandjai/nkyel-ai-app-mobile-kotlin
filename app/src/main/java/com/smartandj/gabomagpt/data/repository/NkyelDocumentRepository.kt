@@ -191,24 +191,19 @@ class NkyelDocumentRepository @Inject constructor(
             val file = File(context.cacheDir, fileName)
 
             val requestBuilder = okhttp3.Request.Builder().url(targetUrl)
-            val isBackendHost = targetUrl.startsWith(com.smartandj.gabomagpt.data.remote.NkyelNetworkConfig.BASE_URL)
-            if (isBackendHost) {
-                try {
-                    val token = com.smartandj.gabomagpt.data.remote.ClerkTokenProvider.getValidSessionToken()
-                    if (!token.isNullOrBlank()) {
-                        requestBuilder.addHeader("Authorization", "Bearer $token")
-                    }
-                } catch (e: kotlinx.coroutines.CancellationException) {
-                    throw e
-                } catch (_: Exception) {}
-            }
+            try {
+                val token = com.clerk.api.Clerk.session?.getToken()
+                if (!token.isNullOrBlank()) {
+                    requestBuilder.addHeader("Authorization", "Bearer $token")
+                }
+            } catch (_: Exception) {}
 
             val response = okHttpClient.newCall(requestBuilder.build()).execute()
             if (!response.isSuccessful) {
                 return@withContext ExportResult.Error("Échec téléchargement : code HTTP ${response.code}")
             }
 
-            response.body?.byteStream()?.use { input ->
+            response.body()?.byteStream()?.use { input ->
                 FileOutputStream(file).use { output ->
                     input.copyTo(output)
                 }

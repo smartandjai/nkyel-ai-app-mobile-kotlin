@@ -37,7 +37,7 @@ val NKYEL_MODELS = listOf(
     NkyelModel("nkyel", "Ñkyel", "Mode Pro — raisonnement logique profond", Icons.Default.Psychology),
     NkyelModel("onyxgris", "OnyxGris", "Agent Perroquet Gris — tâches simples", Icons.Default.SmartToy),
     NkyelModel("blackpanther", "Black Panther", "Le GOAT — multi-agent autonome", Icons.Default.Pets),
-    NkyelModel("wandana", "Wandana", "L'Éléphant — recherche web profonde", Icons.Default.TravelExplore)
+    NkyelModel("wandana", "Wandana", "L'Éléphant — recherche web profonde", NkyelIcons.Wandana)
 )
 
 val GABOMA_MODELS = NKYEL_MODELS
@@ -170,10 +170,7 @@ fun FloatingReactor(
                 placeholder = { Text("Message ${activeModel.name}...", color = Color.White.copy(alpha = 0.5f)) },
                 modifier = Modifier.weight(1f),
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    disabledContainerColor = Color.Transparent,
-                    errorContainerColor = Color.Transparent,
+                    containerColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
                     cursorColor = GabomaTheme.colors.primary

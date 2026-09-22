@@ -68,7 +68,7 @@ val DEFAULT_MODELS = listOf(
         tier = ModelTier.WANDANA,
         accentColor = GabomaColors.AccentBlackPanther,
         gradientStart = GabomaColors.AccentBlackPanther,
-        gradientEnd = LoxoEmeraldEnd
+        gradientEnd = GabomaColors.LoxoEmeraldEnd
     ),
     GabomaModel(
         id = "onyxgris",
@@ -77,7 +77,7 @@ val DEFAULT_MODELS = listOf(
         tier = ModelTier.ONYX_GRIS,
         accentColor = GabomaColors.AccentBlackPanther,
         gradientStart = GabomaColors.AccentBlackPanther,
-        gradientEnd = OnyxVioletEnd
+        gradientEnd = GabomaColors.OnyxVioletEnd
     ),
     GabomaModel(
         id = "black_panther",
@@ -95,7 +95,7 @@ val DEFAULT_MODELS = listOf(
         tier = ModelTier.NYEL,
         accentColor = GabomaColors.AccentBlackPanther,
         gradientStart = GabomaColors.AccentBlackPanther,
-        gradientEnd = NkyelPearlEnd
+        gradientEnd = GabomaColors.NkyelPearlEnd
     )
 )
 

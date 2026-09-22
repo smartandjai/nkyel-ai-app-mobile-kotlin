@@ -45,19 +45,6 @@ enum class NkyelThemeType(
         "Néo Blanc",
         "Marbre de Libreville — Minimal souverain",
         isLight = true
-    ),
-    OBSIDIAN(
-        "Obsidian",
-        "Forêt équatoriale la nuit — OLED flagship"
-    ),
-    NOIR_OLED(
-        "Noir OLED",
-        "Forêt équatoriale la nuit — OLED flagship"
-    ),
-    BLANC_EMERAUDE(
-        "Blanc Émeraude",
-        "Fleuve Ogooué à l'aube — Thème blanc émeraude",
-        isLight = true
     );
 
     val isDark: Boolean get() = !isLight
@@ -481,8 +468,8 @@ object NkyelThemeDefinitions {
 
     fun getTheme(type: NkyelThemeType): NkyelThemeDefinition = when (type) {
         NkyelThemeType.BLACK_PANTHER -> BlackPanther
-        NkyelThemeType.NUIT_LOPE, NkyelThemeType.OBSIDIAN, NkyelThemeType.NOIR_OLED -> NuitLope
-        NkyelThemeType.AURORE_OGOUE, NkyelThemeType.BLANC_EMERAUDE -> AuroreOgoue
+        NkyelThemeType.NUIT_LOPE -> NuitLope
+        NkyelThemeType.AURORE_OGOUE -> AuroreOgoue
         NkyelThemeType.BLEU_NUIT -> BleuNuit
         NkyelThemeType.VIOLETTE_MANDRILLE -> VioletteMAndrille
         NkyelThemeType.NEO_BLANC -> NeoBlanc

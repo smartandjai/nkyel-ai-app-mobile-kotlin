@@ -1,6 +1,7 @@
 package com.smartandj.gabomagpt.presentation.chat
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

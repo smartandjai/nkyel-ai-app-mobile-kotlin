@@ -17,7 +17,6 @@ import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
@@ -217,6 +216,9 @@ fun ImmersiveGabomaTheme(content: @Composable () -> Unit) {
     )
 }
 
+@Composable
+fun GabomaTheme(content: @Composable () -> Unit) = ImmersiveGabomaTheme(content = content)
+
 enum class GabomaThemeMode { EQUATORIAL_GOLD, ABYSS, TURQUOISE_FOCUS }
 enum class WritingTone { SOBRE, STRATEGIQUE, CHALEUREUX, DIRECTIF }
 enum class GabomaModel(
@@ -236,7 +238,7 @@ enum class GabomaModel(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GabomaMobileApp() {
-    GabomaTheme {
+    ImmersiveGabomaTheme {
         val drawerState = rememberDrawerState(DrawerValue.Closed)
         val scope = rememberCoroutineScope()
         val snack = remember { SnackbarHostState() }

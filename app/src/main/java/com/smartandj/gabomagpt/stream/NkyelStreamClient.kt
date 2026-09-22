@@ -11,8 +11,10 @@ import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import okhttp3.sse.EventSource
 import okhttp3.sse.EventSourceListener
@@ -59,7 +61,7 @@ class NkyelStreamClient @Inject constructor(
         fun createRequest(): Request {
             val url = if (baseUrl == DEFAULT_BASE_URL) NkyelNetworkConfig.AGENT_STREAM_URL else "$baseUrl$SSE_ENDPOINT"
             val bodyJson = """{"message":${json.encodeToString(kotlinx.serialization.serializer(), message)},"user_id":"clerk_user","conversation_id":"$threadId","engine":"NATIVE","features":{"deepResearch":false,"executiveArtifacts":true}}"""
-            val requestBody = bodyJson.toRequestBody("application/json; charset=utf-8".toMediaType())
+            val requestBody = bodyJson.toRequestBody("application/json".toMediaType())
 
             return Request.Builder()
                 .url(url)

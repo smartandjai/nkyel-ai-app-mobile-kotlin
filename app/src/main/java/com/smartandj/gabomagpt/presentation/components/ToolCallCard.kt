@@ -31,7 +31,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.smartandj.gabomagpt.stream.GabomaStreamEvent
-import com.smartandj.gabomagpt.stream.NkyelStreamEvent
 
 /**
  * ToolCallCard — Repliable card showing a tool invocation.
@@ -46,9 +45,9 @@ import com.smartandj.gabomagpt.stream.NkyelStreamEvent
  */
 @Composable
 fun ToolCallCard(
-    toolStart: NkyelStreamEvent.ToolStart,
-    toolEnd: NkyelStreamEvent.ToolEnd? = null,
-    toolProgress: NkyelStreamEvent.ToolProgress? = null,
+    toolStart: GabomaStreamEvent.ToolStart,
+    toolEnd: GabomaStreamEvent.ToolEnd? = null,
+    toolProgress: GabomaStreamEvent.ToolProgress? = null,
     modifier: Modifier = Modifier
 ) {
     var isExpanded by remember { mutableStateOf(false) }

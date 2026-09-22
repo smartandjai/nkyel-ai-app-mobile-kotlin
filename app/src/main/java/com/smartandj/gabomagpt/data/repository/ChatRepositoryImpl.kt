@@ -66,12 +66,10 @@ class ChatRepositoryImpl @Inject constructor(
 
         // Retrieve Clerk token if available
         try {
-            val clerkToken = com.smartandj.gabomagpt.data.remote.ClerkTokenProvider.getValidSessionToken()
+            val clerkToken = com.clerk.api.Clerk.session?.getToken()
             if (!clerkToken.isNullOrBlank()) {
                 requestBuilder.header("Authorization", "Bearer $clerkToken")
             }
-        } catch (e: kotlinx.coroutines.CancellationException) {
-            throw e
         } catch (_: Exception) {
             // Unauthenticated or mock mode
         }
