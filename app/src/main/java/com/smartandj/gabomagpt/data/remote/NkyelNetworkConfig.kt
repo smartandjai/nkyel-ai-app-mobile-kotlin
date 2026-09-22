@@ -10,7 +10,7 @@ object NkyelNetworkConfig {
     const val WEB_URL: String = "https://nkyel.smartandjai.com"
 
     // ── Routes d'API canoniques ────────────────
-    const val AGENT_STREAM_URL: String = "$BASE_URL/api/v1/nkyel"
+    const val AGENT_STREAM_URL: String = "$BASE_URL/api/v1/nkyel/run"
     const val CONVERSATIONS_URL: String = "$BASE_URL/api/v1/conversations"
     const val ARTIFACTS_URL: String = "$BASE_URL/api/v1/artifacts"
     const val MISSIONS_URL: String = "$BASE_URL/api/v1/missions"

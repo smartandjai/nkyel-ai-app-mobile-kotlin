@@ -38,7 +38,7 @@ class NkyelStreamClient @Inject constructor(
 ) {
     companion object {
         private const val DEFAULT_BASE_URL = NkyelNetworkConfig.BASE_URL
-        private const val SSE_ENDPOINT = "/api/v1/nkyel"
+        private const val SSE_ENDPOINT = "/api/v1/nkyel/run"
         private const val RECONNECT_DELAY_MS = 3000L
         private const val MAX_RECONNECT_ATTEMPTS = 5
     }
