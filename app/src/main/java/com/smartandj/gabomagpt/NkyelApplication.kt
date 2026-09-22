@@ -14,13 +14,11 @@ class NkyelApplication : Application() {
         super.onCreate()
 
         // ── Clerk SDK init ─────────────────────────────────────
-        // Uses the publishable key only (NEVER the secret key in a mobile app).
-        // The key is hardcoded here instead of BuildConfig because:
-        //   1. It's a PUBLIC key (safe to ship in APK)
-        //   2. It avoids local.properties/CI sync issues that caused build failures
+        // Uses the production publishable key matching clerk.smartandjai.com.
+        // It's a public key safe to ship in the APK.
         Clerk.initialize(
             context = this,
-            publishableKey = "pk_test_aG9seS1jaWNhZGEtOTAuY2xlcmsuYWNjb3VudHMuZGV2JA"
+            publishableKey = "pk_live_Y2xlcmsuc21hcnRhbmRqYWkuY29tJA"
         )
     }
 }

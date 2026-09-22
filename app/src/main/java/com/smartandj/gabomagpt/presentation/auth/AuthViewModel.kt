@@ -7,9 +7,11 @@ package com.smartandj.gabomagpt.presentation.auth
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import com.clerk.api.Clerk
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,18 +33,31 @@ sealed interface AuthState {
 @HiltViewModel
 class AuthViewModel @Inject constructor() : ViewModel() {
 
-    private val _authState = MutableStateFlow<AuthState>(AuthState.Loading)
-    val authState: StateFlow<AuthState> = _authState.asStateFlow()
-
-    init {
-        // TODO: Re-enable Clerk auth when SDK is properly configured
-        // For now, default to SignedOut so the app can compile and run
-        _authState.value = AuthState.SignedOut
-    }
+    val authState: StateFlow<AuthState> = combine(
+        Clerk.isInitialized,
+        Clerk.userFlow
+    ) { isInitialized, user ->
+        when {
+            !isInitialized -> AuthState.Loading
+            user != null -> AuthState.SignedIn(
+                userId = user.id,
+                fullName = listOfNotNull(user.firstName, user.lastName).joinToString(" ").trim().ifEmpty { null },
+                avatarUrl = user.imageUrl,
+                email = user.primaryEmailAddress?.emailAddress
+            )
+            else -> AuthState.SignedOut
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = AuthState.Loading
+    )
 
     fun signOut() {
         viewModelScope.launch {
-            _authState.value = AuthState.SignedOut
+            try {
+                Clerk.auth.signOut()
+            } catch (_: Exception) {}
         }
     }
 }
