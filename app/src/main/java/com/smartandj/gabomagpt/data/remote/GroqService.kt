@@ -123,7 +123,7 @@ Utilisateur: $query
 Analyse profonde basée sur les sources ci-dessus:
             """.trimIndent()
 
-            streamChat(analysisPrompt, GabomaChatModel.WANDANA, systemPrompt).collect { event ->
+            streamChat(analysisPrompt, NkyelChatModel.WANDANA, systemPrompt).collect { event ->
                 emit(event)
             }
         } catch (e: Exception) {

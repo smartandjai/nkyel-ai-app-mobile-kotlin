@@ -82,6 +82,11 @@ typealias NkyelThemeColors = GabomaThemeColors
 object NkyelTheme {
     val colors: GabomaThemeColors
         @Composable get() = LocalGabomaColors.current
+
+    @Composable
+    operator fun invoke(content: @Composable () -> Unit) {
+        GabomaAppTheme(content = content)
+    }
 }
 
 /**
@@ -91,6 +96,11 @@ object NkyelTheme {
 object GabomaTheme {
     val colors: GabomaThemeColors
         @Composable get() = LocalGabomaColors.current
+
+    @Composable
+    operator fun invoke(content: @Composable () -> Unit) {
+        GabomaAppTheme(content = content)
+    }
 }
 
 /**
@@ -118,6 +128,7 @@ data class GabomaThemeColors(
     val textMuted: Color,
     val border: Color,
     val error: Color = GabomaColors.ErrorRed,
+    val success: Color = GabomaColors.SuccessGreen,
     val isLight: Boolean = false
 )
 
@@ -132,6 +143,8 @@ fun resolveGabomaColors(theme: GabomaThemeType): GabomaThemeColors {
         textSecondary = def.textSecondary,
         textMuted = def.textTertiary,
         border = def.accentPrimary.copy(alpha = 0.08f),
+        error = GabomaColors.ErrorRed,
+        success = def.accentSecondary,
         isLight = theme.isLight
     )
 }

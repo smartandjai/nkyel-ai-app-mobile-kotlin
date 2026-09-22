@@ -59,10 +59,7 @@ class NkyelStreamClient @Inject constructor(
         fun createRequest(): Request {
             val url = if (baseUrl == DEFAULT_BASE_URL) NkyelNetworkConfig.AGENT_STREAM_URL else "$baseUrl$SSE_ENDPOINT"
             val bodyJson = """{"message":${json.encodeToString(kotlinx.serialization.serializer(), message)},"user_id":"clerk_user","conversation_id":"$threadId","engine":"NATIVE","features":{"deepResearch":false,"executiveArtifacts":true}}"""
-            val requestBody = okhttp3.RequestBody.create(
-                okhttp3.MediaType.parse("application/json"),
-                bodyJson
-            )
+            val requestBody = bodyJson.toRequestBody("application/json; charset=utf-8".toMediaType())
 
             return Request.Builder()
                 .url(url)

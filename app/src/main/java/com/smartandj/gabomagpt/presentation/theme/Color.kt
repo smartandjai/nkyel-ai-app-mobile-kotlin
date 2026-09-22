@@ -34,6 +34,9 @@ object GabomaColors {
     val AccentBlackPanther = Color(0xFFC5A059)
     val AccentBorder = Color(0x14C5A059) // ~8% opacity
     val AccentHover = Color(0x29C5A059)  // ~16% opacity
+    val LoxoEmeraldEnd = Color(0xFF00D4AA)
+    val OnyxVioletEnd = Color(0xFF9275FF)
+    val NkyelPearlEnd = Color(0xFFF0E8D8)
 
     // ─────────────────────────────────────────────────────────────────────
     // STATUS COLORS - Palette gabonaise sémantique
