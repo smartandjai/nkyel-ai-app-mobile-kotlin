@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="4.2"
+        android:scaleY="4.2"
+        android:translateX="22.5"
+        android:translateY="22.5">
+        <!-- Corps streamline -->
+        <path
+            android:fillColor="@android:color/transparent"
+            android:strokeColor="#C5A059"
+            android:strokeWidth="1.2"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M2,11 C4,7 9,2 13,4.5"/>
+        <!-- Rostre -->
+        <path
+            android:fillColor="@android:color/transparent"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="1.2"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M13,4.5 C13.5,5 12.5,6.5 11,7.5"/>
+        <!-- Ventre -->
+        <path
+            android:fillColor="@android:color/transparent"
+            android:strokeColor="#C5A059"
+            android:strokeWidth="1.2"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M11,7.5 C8,9 7.5,7.5 7,8"/>
+        <path
+            android:fillColor="@android:color/transparent"
+            android:strokeColor="#C5A059"
+            android:strokeWidth="1.2"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M7,8 C5,9.5 3,10.5 2,11"/>
+        <!-- Nageoire caudale -->
+        <path
+            android:fillColor="@android:color/transparent"
+            android:strokeColor="#00D4AA"
+            android:strokeWidth="1.2"
+            android:strokeLineCap="round"
+            android:pathData="M2,11 L1,9.5"/>
+        <path
+            android:fillColor="@android:color/transparent"
+            android:strokeColor="#00D4AA"
+            android:strokeWidth="1.2"
+            android:strokeLineCap="round"
+            android:pathData="M2,11 L1,12.5"/>
+        <!-- Oeil -->
+        <path
+            android:fillColor="#00D4AA"
+            android:strokeWidth="0"
+            android:pathData="M11.1,5.5 a0.4,0.4 0 1,0 0.8,0 a0.4,0.4 0 1,0 -0.8,0"/>
+        <!-- Nageoire dorsale -->
+        <path
+            android:fillColor="@android:color/transparent"
+            android:strokeColor="#00D4AA"
+            android:strokeWidth="1.0"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M8,5.5 L7,3.5 L6.5,5.5"/>
+    </group>
+</vector>

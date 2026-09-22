@@ -1,0 +1,51 @@
+# Android
+.gradle
+build/
+.idea/
+.DS_Store
+*.iml
+*.apk
+*.ap_
+*.aar
+
+# IDE
+.vscode/
+*.swp
+*.swo
+*~
+.env
+local.properties
+
+# Gradle
+gradle-app.setting
+!gradle-wrapper.jar
+.gradletasknamecache
+
+# Build files
+*.jks
+*.keystore
+
+# Kotlin
+.kotlin/
+*.kotlin_metadata
+
+# Output
+out/
+
+# Logs & Crash dumps
+*.log
+hs_err_pid*
+replay_pid*
+
+# Caches & Generated
+.pytest_cache/
+ksp-metadata.xml
+android_signing_report.txt
+
+# Markdown docs (development notes only)
+**/INTEGRATION_GUIDE*.md
+**/COMPLETION_SUMMARY.md
+**/FILES_MANIFEST*.md
+**/MIGRATION_GUIDE*.md
+**/QUICKSTART_THEMES_TEST.md
+

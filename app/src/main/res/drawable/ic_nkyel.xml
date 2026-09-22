@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Gaboma AI · Ñkyel · Dauphin complet · SmartANDJ AI Technologies -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="15"
+    android:viewportHeight="15">
+
+    <!-- Corps streamline -->
+    <path android:fillColor="@android:color/transparent" android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.2" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M2,11 C4,7 9,2 13,4.5"/>
+
+    <!-- Bec / rostre -->
+    <path android:fillColor="@android:color/transparent" android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.2" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M13,4.5 C13.5,5 12.5,6.5 11,7.5"/>
+
+    <!-- Ventre -->
+    <path android:fillColor="@android:color/transparent" android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.2" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M11,7.5 C8,9 7.5,7.5 7,8"/>
+    <path android:fillColor="@android:color/transparent" android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.2" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M7,8 C5,9.5 3,10.5 2,11"/>
+
+    <!-- Nageoire caudale — 2 lobes -->
+    <path android:fillColor="@android:color/transparent" android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.2" android:strokeLineCap="round"
+        android:pathData="M2,11 L1,9.5"/>
+    <path android:fillColor="@android:color/transparent" android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.2" android:strokeLineCap="round"
+        android:pathData="M2,11 L1,12.5"/>
+
+    <!-- Oeil -->
+    <path android:fillColor="#FFFFFF" android:strokeWidth="0"
+        android:pathData="M11.1,5.5 a0.4,0.4 0 1,0 0.8,0 a0.4,0.4 0 1,0 -0.8,0"/>
+
+    <!-- Nageoire dorsale — triangle distinctif -->
+    <path android:fillColor="@android:color/transparent" android:strokeColor="#FFFFFF"
+        android:strokeWidth="1" android:strokeLineCap="round" android:strokeLineJoin="round"
+        android:pathData="M8,5.5 L7,3.5 L6.5,5.5"/>
+
+</vector>

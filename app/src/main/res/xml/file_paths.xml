@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <external-files-path name="downloaded_docs" path="documents/" />
+    <files-path name="internal_docs" path="documents/" />
+    <cache-path name="cached_artifacts" path="artifacts/" />
+</paths>

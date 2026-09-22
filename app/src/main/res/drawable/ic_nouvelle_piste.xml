@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 🐾 Nouvelle Piste — Empreinte de panthère -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp" android:height="24dp"
+    android:viewportWidth="15" android:viewportHeight="15">
+    <path android:fillColor="#FFFFFF" android:strokeWidth="0"
+        android:pathData="M5.3,10.2 a2.2,1.65 0 1,0 4.4,0 a2.2,1.65 0 1,0 -4.4,0"/>
+    <group android:pivotX="4.1" android:pivotY="7.5" android:rotation="-15">
+        <path android:fillColor="#FFFFFF" android:strokeWidth="0"
+            android:pathData="M3.28,7.5 a0.82,1.05 0 1,0 1.64,0 a0.82,1.05 0 1,0 -1.64,0"/>
+    </group>
+    <path android:fillColor="#FFFFFF" android:strokeWidth="0"
+        android:pathData="M5.38,6.3 a0.82,1 0 1,0 1.64,0 a0.82,1 0 1,0 -1.64,0"/>
+    <path android:fillColor="#FFFFFF" android:strokeWidth="0"
+        android:pathData="M7.98,6.3 a0.82,1 0 1,0 1.64,0 a0.82,1 0 1,0 -1.64,0"/>
+    <group android:pivotX="10.9" android:pivotY="7.5" android:rotation="15">
+        <path android:fillColor="#FFFFFF" android:strokeWidth="0"
+            android:pathData="M10.08,7.5 a0.82,1.05 0 1,0 1.64,0 a0.82,1.05 0 1,0 -1.64,0"/>
+    </group>
+</vector>

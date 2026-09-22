@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ñkyel AI</string>
+    <string name="tagline">L\'Intelligence Artificielle Souveraine</string>
+    <string name="welcome_title">Bienvenue sur Ñkyel AI</string>
+    <string name="welcome_subtitle">Votre copilote d\'intelligence stratégique, de recherche et d\'exécution autonome</string>
+    
+    <!-- Navigation & L\'Antre -->
+    <string name="menu_antre">L\'Antre</string>
+    <string name="menu_chat">Conversation</string>
+    <string name="menu_sanctuary">Le Sanctuaire</string>
+    <string name="menu_artifacts">Rendus &amp; Livrables</string>
+    <string name="menu_missions">Missions Agentiques</string>
+    <string name="menu_projects">Projets</string>
+    <string name="menu_settings">Paramètres</string>
+    <string name="new_chat">Nouvelle conversation</string>
+    <string name="ask_placeholder">Demandez ou confiez une mission à Ñkyel...</string>
+    
+    <!-- Modèles Officiels -->
+    <string name="model_chui">Ñkyel Chui</string>
+    <string name="model_chui_desc">Réponses rapides &amp; efficaces (Groq GPT-OSS)</string>
+    <string name="model_tai">Ñkyel Tai</string>
+    <string name="model_tai_desc">Raisonnement profond &amp; multimodal (Qwen)</string>
+    <string name="model_web">Recherche Web</string>
+    <string name="model_web_desc">Recherche web ancrée &amp; deep research (Tavily)</string>
+    <string name="model_onyx">OnyxGris</string>
+    <string name="model_onyx_desc">Mission agentique lourde (DeerFlow 2.0 / Qwen)</string>
+    <string name="model_panther">Blue Panther</string>
+    <string name="model_panther_desc">Mode Créateur Illimité</string>
+    
+    <!-- Livrables & Rendus -->
+    <string name="artifacts_title">Le Sanctuaire — Rendus</string>
+    <string name="download">Télécharger</string>
+    <string name="preview">Aperçu</string>
+    <string name="verified_by_qwen">Généré et vérifié par l\'agent Ñkyel</string>
+</resources>
