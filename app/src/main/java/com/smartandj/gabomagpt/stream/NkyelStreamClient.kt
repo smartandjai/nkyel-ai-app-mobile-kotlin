@@ -261,6 +261,25 @@ class NkyelStreamClient @Inject constructor(
                     tag = jsonObj.str("tag")
                 )
 
+                "vie.a2ui.render.v1", "a2ui_render", "A2UI_RENDER" -> NkyelStreamEvent.A2UIRender(
+                    componentType = jsonObj.str("component") ?: dataObj?.str("component") ?: "card",
+                    title = jsonObj.str("title") ?: dataObj?.str("title") ?: "Interface Dynamique",
+                    rawJson = data
+                )
+
+                "vie.agent.spawned.v1", "a2a_delegation", "A2A_DELEGATION" -> NkyelStreamEvent.A2ADelegation(
+                    delegationId = jsonObj.str("delegation_id") ?: dataObj?.str("delegation_id") ?: "",
+                    parentAgent = jsonObj.str("parent_agent") ?: dataObj?.str("parent_agent") ?: "lead_agent",
+                    targetAgent = jsonObj.str("target_agent") ?: dataObj?.str("target_agent") ?: "sub_agent",
+                    taskScope = jsonObj.str("task_scope") ?: dataObj?.str("task_scope") ?: ""
+                )
+
+                "mcp.server.connected", "mcp_event", "MCP_SERVER_EVENT" -> NkyelStreamEvent.MCPServerEvent(
+                    serverId = jsonObj.str("server_id") ?: dataObj?.str("server_id") ?: "",
+                    status = jsonObj.str("status") ?: dataObj?.str("status") ?: "connected",
+                    toolCount = jsonObj.int("tool_count") ?: dataObj?.int("tool_count") ?: 0
+                )
+
                 "error", "RUN_ERROR" -> NkyelStreamEvent.Error(
                     message = jsonObj.str("message") ?: dataObj?.str("message") ?: "Erreur Ñkyel AI",
                     code = jsonObj.str("code") ?: "unknown"

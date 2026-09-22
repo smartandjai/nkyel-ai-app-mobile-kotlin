@@ -173,6 +173,31 @@ sealed class NkyelStreamEvent {
         override val timestamp: Double = System.currentTimeMillis() / 1000.0
     ) : NkyelStreamEvent()
 
+    // ─── A2UI (Agent-to-User Dynamic Interface) ───────────────────
+    data class A2UIRender(
+        val componentType: String,
+        val title: String,
+        val rawJson: String? = null,
+        override val timestamp: Double = System.currentTimeMillis() / 1000.0
+    ) : NkyelStreamEvent()
+
+    // ─── A2A (Agent-to-Agent Protocol & Delegation) ───────────────
+    data class A2ADelegation(
+        val delegationId: String,
+        val parentAgent: String,
+        val targetAgent: String,
+        val taskScope: String,
+        override val timestamp: Double = System.currentTimeMillis() / 1000.0
+    ) : NkyelStreamEvent()
+
+    // ─── MCP (Model Context Protocol Event) ────────────────────────
+    data class MCPServerEvent(
+        val serverId: String,
+        val status: String,
+        val toolCount: Int = 0,
+        override val timestamp: Double = System.currentTimeMillis() / 1000.0
+    ) : NkyelStreamEvent()
+
     // ─── Errors ──────────────────────────────────────────────────
 
     data class Error(
