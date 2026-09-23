@@ -10,17 +10,17 @@ enum class NkyelChatModel(
     val accent: Long,
     val accent2: Long
 ) {
-    AURATA(
+    CHUI(
         apiValue = "nkyel_chui",
         displayName = "Ñkyel Chui",
         shortName = "Chui",
         description = "Réponses rapides & efficaces",
         tier = "FAST",
-        subtitle = "Groq GPT-OSS Fast Chat",
+        subtitle = "Groq Fast Chat",
         accent = 0xFFC9A84C,
         accent2 = 0xFFE2C56A
     ),
-    NYEL(
+    TAI(
         apiValue = "nkyel_tai",
         displayName = "Ñkyel Tai",
         shortName = "Tai",
@@ -30,35 +30,25 @@ enum class NkyelChatModel(
         accent = 0xFF4A8DFF,
         accent2 = 0xFF00D4AA
     ),
-    WANDANA(
+    RADI(
+        apiValue = "nkyel_radi",
+        displayName = "Ñkyel Radi",
+        shortName = "Radi",
+        description = "Langues gabonaises & tâches légères",
+        tier = "FAST",
+        subtitle = "Langues Gabon & Afrique",
+        accent = 0xFF19C37D,
+        accent2 = 0xFF00D4AA
+    ),
+    RECHERCHE_WEB(
         apiValue = "recherche_web",
         displayName = "Recherche Web",
         shortName = "Recherche",
         description = "Recherche web ancrée & faits actuels",
         tier = "WEB",
         subtitle = "Tavily Grounded Synthesis",
-        accent = 0xFF19C37D,
-        accent2 = 0xFF00D4AA
-    ),
-    ONYX_GRIS(
-        apiValue = "onyxgris",
-        displayName = "OnyxGris",
-        shortName = "OnyxGris",
-        description = "Mission agentique lourde & livrables",
-        tier = "MAX",
-        subtitle = "DeerFlow 2.0 / Qwen",
-        accent = 0xFF9275FF,
-        accent2 = 0xFFC9A84C
-    ),
-    BLACK_PANTHER(
-        apiValue = "blue_panther",
-        displayName = "Blue Panther",
-        shortName = "Panther",
-        description = "Mode Créateur Illimité",
-        tier = "MAX",
-        subtitle = "Créateur Souverain",
-        accent = 0xFFFF6E69,
-        accent2 = 0xFF00D4AA
+        accent = 0xFF00D4AA,
+        accent2 = 0xFF19C37D
     ),
     NKYEL_SEER(
         apiValue = "vision_rendu",
@@ -72,17 +62,23 @@ enum class NkyelChatModel(
     );
 
     val requiresDeerflow: Boolean
-        get() = this == ONYX_GRIS || this == BLACK_PANTHER
+        get() = false
 
     val isDeepResearch: Boolean
-        get() = this == WANDANA
+        get() = this == RECHERCHE_WEB
 
     val backendEngine: String?
         get() = when (this) {
-            ONYX_GRIS, BLACK_PANTHER -> "DEERFLOW"
-            NYEL -> "NATIVE"
+            TAI -> "NATIVE"
             else -> null
         }
+
+    companion object {
+        // Backward compatibility aliases
+        val AURATA get() = CHUI
+        val NYEL get() = TAI
+        val WANDANA get() = RECHERCHE_WEB
+    }
 }
 
 typealias GabomaChatModel = NkyelChatModel

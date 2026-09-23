@@ -67,9 +67,13 @@ object NkyelConfig {
     const val TAVILY_BASE_URL = "https://api.tavily.com"
 
     // Modèles Nkyel disponibles mappés aux tiers Ñkyel AI
-    const val MODEL_AURATA        = "llama-3.1-8b-instant"
-    const val MODEL_SONAR         = "llama-3.3-70b-versatile"
-    const val MODEL_LOXO          = "llama-3.1-70b-versatile"
+    const val MODEL_CHUI          = "llama-3.1-8b-instant"
+    const val MODEL_TAI           = "llama-3.3-70b-versatile"
+    const val MODEL_RADI          = "llama-3.1-70b-versatile"
+    const val MODEL_RECHERCHE     = "llama-3.1-70b-versatile"
+    const val MODEL_AURATA        = MODEL_CHUI
+    const val MODEL_SONAR         = MODEL_TAI
+    const val MODEL_LOXO          = MODEL_RADI
     const val MODEL_ONYX          = "deepseek-r1-distill-llama-70b"
     const val MODEL_BLACK_PANTHER = "llama-3.3-70b-versatile"
     const val MODEL_NKYEL         = "llama-3.1-70b-versatile"
@@ -176,12 +180,19 @@ enum class NkyelModelTier(
     val accentColor : Color,
     val shortName   : String
 ) {
-    AURATA       ("CHUI",         NkyelConfig.MODEL_AURATA,        Color(0xFFC9A84C), "CHUI"),
-    SONAR        ("SONAR",        NkyelConfig.MODEL_SONAR,         Color(0xFF0080FF), "SONAR"),
-    LOXO         ("LOXO",         NkyelConfig.MODEL_LOXO,          Color(0xFF00B86B), "LOXO"),
-    ONYX         ("ONYX",         NkyelConfig.MODEL_ONYX,          Color(0xFF8B5CF6), "ONYX"),
-    BLACK_PANTHER("BLUE PANTHER", NkyelConfig.MODEL_BLACK_PANTHER, Color(0xFF00D4AA), "PANTHER"),
-    NKYEL        ("TAI",          NkyelConfig.MODEL_NKYEL,         Color(0xFFF5F0E8), "TAI")
+    CHUI         ("Ñkyel Chui",    NkyelConfig.MODEL_CHUI,          Color(0xFFC9A84C), "CHUI"),
+    TAI          ("Ñkyel Tai",     NkyelConfig.MODEL_TAI,           Color(0xFF0080FF), "TAI"),
+    RADI         ("Ñkyel Radi",    NkyelConfig.MODEL_RADI,          Color(0xFF00B86B), "RADI"),
+    RECHERCHE    ("Recherche Web", NkyelConfig.MODEL_RECHERCHE,     Color(0xFF00D4AA), "RECHERCHE"),
+    ONYX         ("OnyxGris",      NkyelConfig.MODEL_ONYX,          Color(0xFF8B5CF6), "ONYX"),
+    BLACK_PANTHER("Blue Panther",  NkyelConfig.MODEL_BLACK_PANTHER, Color(0xFFFF6E69), "PANTHER"),
+    NKYEL        ("Ñkyel",         NkyelConfig.MODEL_NKYEL,         Color(0xFFF5F0E8), "NKYEL");
+
+    companion object {
+        val AURATA get() = CHUI
+        val SONAR get() = TAI
+        val LOXO get() = RADI
+    }
 }
 
 typealias GabomaModelTier = NkyelModelTier
@@ -384,7 +395,7 @@ class NkyelInferenceChatViewModel @Inject constructor(
     private val _isSearching   = MutableStateFlow(false)
     val isSearching : StateFlow<Boolean> = _isSearching.asStateFlow()
 
-    private val _currentModel  = MutableStateFlow(NkyelModelTier.AURATA)
+    private val _currentModel  = MutableStateFlow(NkyelModelTier.CHUI)
     val currentModel : StateFlow<NkyelModelTier> = _currentModel.asStateFlow()
 
     private val _loxoEnabled   = MutableStateFlow(false)

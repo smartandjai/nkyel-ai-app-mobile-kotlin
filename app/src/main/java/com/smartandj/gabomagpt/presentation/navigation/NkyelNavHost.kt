@@ -20,6 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import com.smartandj.gabomagpt.presentation.auth.AuthScreen
 import com.smartandj.gabomagpt.presentation.auth.AuthState
 import com.smartandj.gabomagpt.presentation.auth.AuthViewModel
+import com.smartandj.gabomagpt.presentation.chat.ChatViewModel
 import com.smartandj.gabomagpt.presentation.chat.NkyelChatScreen
 import com.smartandj.gabomagpt.presentation.chat.UserTier
 import com.smartandj.gabomagpt.presentation.onboarding.OnboardingScreen
@@ -88,8 +89,11 @@ fun NkyelNavHost() {
                     AcceptableUsePolicyScreen(onBack = { navController.popBackStack() })
                 }
 
-                // ── Chat ──
+                // ── Chat (wired to ChatViewModel) ──
                 composable("chat") {
+                    val chatViewModel: ChatViewModel = hiltViewModel()
+                    val chatState by chatViewModel.uiState.collectAsState()
+
                     val displayName = onboardingViewModel.getSavedDisplayName()
                         ?: state.fullName
                         ?: "Utilisateur"
@@ -98,8 +102,13 @@ fun NkyelNavHost() {
                         navController = navController,
                         userName = displayName,
                         userTier = UserTier.AURATA,
-                        messages = emptyList(),
-                        onSend = { _, _ -> },
+                        messages = chatState.messages,
+                        isGenerating = chatState.isStreaming,
+                        onSend = { text, modelId ->
+                            chatViewModel.sendMessage(text, modelId)
+                        },
+                        onStop = { chatViewModel.cancelStreaming() },
+                        onNewChat = { chatViewModel.clearMessages() },
                         onUpsellRequested = {},
                     )
                 }
@@ -112,3 +121,4 @@ fun NkyelNavHost() {
 fun GabomaNavHost() {
     NkyelNavHost()
 }
+

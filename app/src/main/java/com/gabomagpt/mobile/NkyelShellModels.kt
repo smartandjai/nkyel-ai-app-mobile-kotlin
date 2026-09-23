@@ -112,12 +112,19 @@ enum class ForceTier(
     val note: String,
     val freeArtifactLimit: Int = Int.MAX_VALUE
 ) {
-    AURATA("AURATA", GoldNkyel, "Gratuit · réponses + artefacts légers", freeArtifactLimit = 1),
-    SONAR("SONAR", Color(0xFF5D8CFF), "Recherche et comparaison"),
-    LOXO("LOXO", Color(0xFF46C98A), "Recherche web et sources"),
-    ONYX("ONYX", Color(0xFF9B8BB3), "Automata avancé"),
-    BLACK_PANTHER("BLACK PANTHER", BlackPantherPrimary, "Expérience premium native"),
-    NKYEL("NKYEL", Color(0xFFE7E1D5), "Souveraineté à venir")
+    CHUI("CHUI", GoldNkyel, "Gratuit · réponses rapides + artefacts légers", freeArtifactLimit = 1),
+    TAI("TAI", Color(0xFF5D8CFF), "Raisonnement profond & multimodal"),
+    RADI("RADI", Color(0xFF46C98A), "Langues Gabon & Afrique"),
+    RECHERCHE("RECHERCHE", Color(0xFF00D4AA), "Recherche web ancrée et sources"),
+    ONYX("ONYX", Color(0xFF9B8BB3), "Mission agentique Automata"),
+    BLACK_PANTHER("BLACK PANTHER", BlackPantherPrimary, "Mode Créateur Illimité"),
+    NKYEL("NKYEL", Color(0xFFE7E1D5), "Souveraineté & gouvernance");
+
+    companion object {
+        val AURATA get() = CHUI
+        val SONAR get() = TAI
+        val LOXO get() = RADI
+    }
 }
 
 enum class ArtifactKind(val label: String) {

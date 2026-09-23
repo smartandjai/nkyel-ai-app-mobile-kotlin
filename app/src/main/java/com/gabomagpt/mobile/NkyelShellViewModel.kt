@@ -26,8 +26,8 @@ class NkyelShellViewModel @Inject constructor(
     private val conversations = MutableStateFlow(
         listOf(
             SidebarConversation("1", "Audit produit Gabon", "Comparatif premium 2026", "Aujourd'hui", true),
-            SidebarConversation("2", "Strategie LOXO", "Sources web et citations", "Aujourd'hui"),
-            SidebarConversation("3", "Mode ONYX agent", "Skills Automata V2.0", "Cette semaine"),
+            SidebarConversation("2", "Stratégie Radi", "Langues et synthèse", "Aujourd'hui"),
+            SidebarConversation("3", "Mode Agent Automata", "Skills souverains", "Cette semaine"),
             SidebarConversation("4", "Palette Black Panther", "Aurora et halos", "Cette semaine")
         )
     )
@@ -128,7 +128,7 @@ class NkyelShellViewModel @Inject constructor(
 
             val isLoxoActive = currentSettings.invokeLoxo ||
                 currentSettings.radarLoxo ||
-                currentSettings.model == ForceTier.LOXO
+                currentSettings.model == ForceTier.RECHERCHE
 
             val chatModel = currentSettings.model.toChatModel()
             val energySnapshot = energy.value
@@ -162,7 +162,7 @@ class NkyelShellViewModel @Inject constructor(
                         patchAssistantMessage(assistantId) {
                             it.copy(streaming = false, artifacts = artifacts)
                         }
-                        if (currentSettings.model == ForceTier.AURATA && artifacts.isNotEmpty()) {
+                        if (currentSettings.model == ForceTier.CHUI && artifacts.isNotEmpty()) {
                             store.useFreeArtifact()
                         }
                         store.bumpEnergyUsage()
@@ -239,13 +239,13 @@ class NkyelShellViewModel @Inject constructor(
         model: ForceTier,
         energy: EnergyState
     ): List<ArtifactCard> {
-        if (model == ForceTier.AURATA && energy.freeArtifactRemaining <= 0) {
+        if (model == ForceTier.CHUI && energy.freeArtifactRemaining <= 0) {
             return listOf(
                 ArtifactCard(
                     id = "locked",
                     title = "Le Rendu premium",
                     kind = ArtifactKind.TEXT,
-                    content = "Le plan AURATA a atteint sa limite quotidienne d'artefacts avancés.",
+                    content = "Le profil CHUI a atteint sa limite quotidienne d'artefacts avancés.",
                     premiumHint = "Activer ton Génie PREMIUM ou Alimenter la Meute"
                 )
             )

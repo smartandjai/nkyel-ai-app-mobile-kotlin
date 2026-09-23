@@ -218,23 +218,36 @@ fun ImmersiveGabomaTheme(content: @Composable () -> Unit) {
 }
 
 @Composable
-fun GabomaTheme(content: @Composable () -> Unit) = ImmersiveGabomaTheme(content = content)
+fun NkyelTheme(content: @Composable () -> Unit) = ImmersiveGabomaTheme(content = content)
+@Composable
+fun GabomaTheme(content: @Composable () -> Unit) = NkyelTheme(content = content)
 
-enum class GabomaThemeMode { EQUATORIAL_GOLD, ABYSS, TURQUOISE_FOCUS }
+enum class NkyelThemeMode { EQUATORIAL_GOLD, ABYSS, TURQUOISE_FOCUS }
+typealias GabomaThemeMode = NkyelThemeMode
 enum class WritingTone { SOBRE, STRATEGIQUE, CHALEUREUX, DIRECTIF }
-enum class GabomaModel(
+enum class NkyelModel(
     val label: String,
     val subtitle: String,
     val accent: Color,
     val accent2: Color
 ) {
-    AURATA("AURATA", "Flash rapide", GoldGaboma, GoldBright),
-    SONAR("SONAR", "Raisonnement fluide", SonarBlue, TurquoiseIA),
-    LOXO("LOXO", "Recherche massive", LoxoGreen, TurquoiseIA),
-    ONYX("ONYX", "Puissance", OnyxPurple, GoldGaboma),
-    BLACK_PANTHER("BLACK PANTHER", "Agent universel", PantherCrimson, TurquoiseIA),
-    NKYEL("NKYEL", "Souveraineté", NkyelPearl, GoldGaboma)
+    CHUI("ÑKYEL CHUI", "Flash rapide & efficace", GoldGaboma, GoldBright),
+    TAI("ÑKYEL TAI", "Raisonnement profond & multimodal", SonarBlue, TurquoiseIA),
+    RADI("ÑKYEL RADI", "Langues Gabon & Afrique", LoxoGreen, TurquoiseIA),
+    RECHERCHE_WEB("RECHERCHE WEB", "Recherche web ancrée", TurquoiseIA, SonarBlue),
+    BLUE_PANTHER("BLUE PANTHER", "Agent créateur souverain", PantherCrimson, TurquoiseIA),
+    ONYX("ONYX GRIS", "Mission agentique lourde", OnyxPurple, GoldGaboma),
+    NKYEL("ÑKYEL", "Souveraineté & gouvernance", NkyelPearl, GoldGaboma);
+
+    companion object {
+        val AURATA get() = CHUI
+        val SONAR get() = TAI
+        val LOXO get() = RADI
+        val BLACK_PANTHER get() = BLUE_PANTHER
+    }
 }
+
+typealias GabomaModel = NkyelModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -1121,16 +1134,21 @@ fun GlassHairline(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ModelLuxuryIcon(model: GabomaModel, modifier: Modifier = Modifier) {
+fun ModelLuxuryIcon(model: NkyelModel, modifier: Modifier = Modifier) {
     when (model) {
-        GabomaModel.AURATA -> AurataIcon(modifier, GoldGaboma)
-        GabomaModel.SONAR -> SonarIcon(modifier, SonarBlue)
-        GabomaModel.LOXO -> LoxoIcon(modifier, LoxoGreen)
-        GabomaModel.ONYX -> OnyxFaceIcon(modifier, OnyxPurple)
-        GabomaModel.BLACK_PANTHER -> OnyxFaceIcon(modifier, PantherCrimson)
-        GabomaModel.NKYEL -> ForetEveilleIcon(modifier, NkyelPearl)
+        NkyelModel.CHUI -> AurataIcon(modifier, GoldGaboma)
+        NkyelModel.TAI -> SonarIcon(modifier, SonarBlue)
+        NkyelModel.RADI -> LoxoIcon(modifier, LoxoGreen)
+        NkyelModel.RECHERCHE_WEB -> LoxoIcon(modifier, TurquoiseIA)
+        NkyelModel.ONYX -> OnyxFaceIcon(modifier, OnyxPurple)
+        NkyelModel.BLUE_PANTHER -> OnyxFaceIcon(modifier, PantherCrimson)
+        NkyelModel.NKYEL -> ForetEveilleIcon(modifier, NkyelPearl)
     }
 }
+
+@Composable fun ChuiIcon(modifier: Modifier = Modifier, color: Color = TextPrimary) = AurataIcon(modifier, color)
+@Composable fun TaiIcon(modifier: Modifier = Modifier, color: Color = TextPrimary) = SonarIcon(modifier, color)
+@Composable fun RadiIcon(modifier: Modifier = Modifier, color: Color = TextPrimary) = LoxoIcon(modifier, color)
 
 @Composable
 fun StrokeIconBase(modifier: Modifier = Modifier, color: Color = TextPrimary, draw: androidx.compose.ui.graphics.drawscope.DrawScope.() -> Unit) {
@@ -1309,13 +1327,14 @@ fun demoMessages(): List<ChatMessage> = listOf(
     )
 )
 
-fun demoAiText(model: GabomaModel): String = when (model) {
-    GabomaModel.AURATA -> "Ñkyel Chui a préparé une réponse concise, lumineuse et rapide, avec des points clés faciles à scanner et des sources visibles."
-    GabomaModel.SONAR -> "Recherche Web déroule une synthèse ordonnée et ancrée dans les faits avec des citations vérifiées."
-    GabomaModel.LOXO -> "Ñkyel Tai active la recherche documentaire et génère des livrables de haute précision dans Le Sanctuaire."
-    GabomaModel.ONYX -> "OnyxGris répond avec une densité de raisonnement de pointe et une exécution multi-étapes orchestrée par DeerFlow."
-    GabomaModel.BLACK_PANTHER -> "Blue Panther orchestre la mission comme un agent universel : synthèse, action, livrables exécutifs et souveraineté absolue."
-    GabomaModel.NKYEL -> "Ñkyel AI privilégie une intelligence souveraine, avec une restitution noble, posée, et orientée gouvernance du savoir."
+fun demoAiText(model: NkyelModel): String = when (model) {
+    NkyelModel.CHUI -> "Ñkyel Chui a préparé une réponse concise, lumineuse et rapide, avec des points clés faciles à scanner et des sources visibles."
+    NkyelModel.TAI -> "Ñkyel Tai déroule une synthèse de raisonnement profond et multimodal de haute précision."
+    NkyelModel.RADI -> "Ñkyel Radi s'active avec une parfaite maîtrise des langues gabonaises, africaines et des tâches stratégiques légères."
+    NkyelModel.RECHERCHE_WEB -> "Recherche Web déroule une synthèse ordonnée et ancrée dans les faits avec des citations vérifiées."
+    NkyelModel.ONYX -> "OnyxGris répond avec une densité de raisonnement de pointe et une exécution multi-étapes orchestrée par DeerFlow."
+    NkyelModel.BLUE_PANTHER -> "Blue Panther orchestre la mission comme un agent universel : synthèse, action, livrables exécutifs et souveraineté absolue."
+    NkyelModel.NKYEL -> "Ñkyel AI privilégie une intelligence souveraine, avec une restitution noble, posée, et orientée gouvernance du savoir."
 }
 
 fun demoSources(): List<SourceRef> = listOf(

@@ -39,9 +39,6 @@ jobs:
       - name: Grant Execute Permission to gradlew
         run: chmod +x ./gradlew
 
-      - name: Compile Kotlin Sources
-        run: ./gradlew :app:compileDebugKotlin --stacktrace --no-daemon
-
       - name: Build Debug APK with Gradle
         run: ./gradlew assembleDebug --stacktrace --no-daemon
 

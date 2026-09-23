@@ -21,6 +21,8 @@
     <string name="model_chui_desc">Réponses rapides &amp; efficaces (Groq GPT-OSS)</string>
     <string name="model_tai">Ñkyel Tai</string>
     <string name="model_tai_desc">Raisonnement profond &amp; multimodal (Qwen)</string>
+    <string name="model_radi">Ñkyel Radi</string>
+    <string name="model_radi_desc">Langues gabonaises &amp; tâches légères</string>
     <string name="model_web">Recherche Web</string>
     <string name="model_web_desc">Recherche web ancrée &amp; deep research (Tavily)</string>
     <string name="model_onyx">OnyxGris</string>

@@ -35,7 +35,7 @@ import androidx.compose.material.icons.filled.*
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
-data class GabomaModel(
+data class NkyelSelectorModel(
     val id: String,
     val displayName: String,
     val description: String,
@@ -46,53 +46,79 @@ data class GabomaModel(
     val isFree: Boolean = false
 )
 
+typealias GabomaModel = NkyelSelectorModel
+
 enum class ModelTier {
-    AURATA, WANDANA, ONYX_GRIS, BLACK_PANTHER, NYEL
+    CHUI, TAI, RADI, RECHERCHE_WEB, ONYX_GRIS, BLACK_PANTHER, NKYEL;
+
+    companion object {
+        val AURATA get() = CHUI
+        val WANDANA get() = RECHERCHE_WEB
+        val NYEL get() = NKYEL
+    }
 }
 
 val DEFAULT_MODELS = listOf(
-    GabomaModel(
-        id = "aurata",
-        displayName = "AURATA",
-        description = "Free tier - Fast responses for quick tasks",
-        tier = ModelTier.AURATA,
+    NkyelSelectorModel(
+        id = "chui",
+        displayName = "ÑKYEL CHUI",
+        description = "Gratuit · réponses rapides & efficaces",
+        tier = ModelTier.CHUI,
         accentColor = GabomaColors.AccentBlackPanther,
         gradientStart = GabomaColors.AccentBlackPanther,
         gradientEnd = GabomaColors.AccentBlackPanther,
         isFree = true
     ),
-    GabomaModel(
-        id = "wandana",
-        displayName = "WANDANA",
-        description = "Mode recherche et deep recherche",
-        tier = ModelTier.WANDANA,
+    NkyelSelectorModel(
+        id = "tai",
+        displayName = "ÑKYEL TAI",
+        description = "Raisonnement profond & multimodal",
+        tier = ModelTier.TAI,
+        accentColor = GabomaColors.AccentBlackPanther,
+        gradientStart = GabomaColors.AccentBlackPanther,
+        gradientEnd = GabomaColors.AccentBlackPanther
+    ),
+    NkyelSelectorModel(
+        id = "radi",
+        displayName = "ÑKYEL RADI",
+        description = "Langues gabonaises & tâches légères",
+        tier = ModelTier.RADI,
         accentColor = GabomaColors.AccentBlackPanther,
         gradientStart = GabomaColors.AccentBlackPanther,
         gradientEnd = GabomaColors.LoxoEmeraldEnd
     ),
-    GabomaModel(
+    NkyelSelectorModel(
+        id = "recherche_web",
+        displayName = "RECHERCHE WEB",
+        description = "Recherche web ancrée & deep research",
+        tier = ModelTier.RECHERCHE_WEB,
+        accentColor = GabomaColors.AccentBlackPanther,
+        gradientStart = GabomaColors.AccentBlackPanther,
+        gradientEnd = GabomaColors.LoxoEmeraldEnd
+    ),
+    NkyelSelectorModel(
         id = "onyxgris",
         displayName = "ONYX GRIS",
-        description = "Max tier - Premium reasoning and creativity",
+        description = "Mission agentique lourde & livrables",
         tier = ModelTier.ONYX_GRIS,
         accentColor = GabomaColors.AccentBlackPanther,
         gradientStart = GabomaColors.AccentBlackPanther,
         gradientEnd = GabomaColors.OnyxVioletEnd
     ),
-    GabomaModel(
-        id = "black_panther",
-        displayName = "BLACK PANTHER",
-        description = "Agent tier - Advanced orchestration and tool use",
+    NkyelSelectorModel(
+        id = "blue_panther",
+        displayName = "BLUE PANTHER",
+        description = "Mode Créateur Illimité",
         tier = ModelTier.BLACK_PANTHER,
         accentColor = GabomaColors.AccentBlackPanther,
         gradientStart = GabomaColors.AccentBlackPanther,
         gradientEnd = GabomaColors.AccentBlackPanther
     ),
-    GabomaModel(
-        id = "nyel",
+    NkyelSelectorModel(
+        id = "nkyel",
         displayName = "ÑKYEL",
-        description = "Modèle intelligent",
-        tier = ModelTier.NYEL,
+        description = "Souveraineté & gouvernance du savoir",
+        tier = ModelTier.NKYEL,
         accentColor = GabomaColors.AccentBlackPanther,
         gradientStart = GabomaColors.AccentBlackPanther,
         gradientEnd = GabomaColors.NkyelPearlEnd
