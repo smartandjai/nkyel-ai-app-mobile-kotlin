@@ -6,7 +6,17 @@ package com.smartandj.gabomagpt.presentation.chat
 
 import com.smartandj.gabomagpt.domain.model.ChatMessage
 import com.smartandj.gabomagpt.domain.model.ChatRole
+import com.smartandj.gabomagpt.domain.model.ArtifactType
+import com.smartandj.gabomagpt.presentation.components.GabomaMarkdownRenderer
+import com.smartandj.gabomagpt.presentation.components.StreamingMessageText
+import com.smartandj.gabomagpt.presentation.components.TaskChecklist
+import com.smartandj.gabomagpt.data.remote.NkyelNetworkConfig
 
+import android.content.Intent
+import android.net.Uri
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
 import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.*
@@ -253,6 +263,12 @@ fun NkyelChatScreen(
                                 textSecondaryColor = textSecondary,
                                 borderColor = border,
                                 accentColor = accent,
+                                onRegenerate = {
+                                    val lastUser = messages.lastOrNull { it.role == ChatRole.USER }
+                                    if (lastUser != null) {
+                                        onSend(lastUser.content, selectedModelId)
+                                    }
+                                }
                             )
                         }
 
@@ -1055,47 +1071,545 @@ private fun MessageBubble(
     textSecondaryColor: Color,
     borderColor: Color,
     accentColor: Color,
+    onRegenerate: () -> Unit = {},
 ) {
+    val context = LocalContext.current
+    val clipboardManager = LocalClipboardManager.current
+    var isThinkingExpanded by remember { mutableStateOf(message.isThinking) }
+
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = if (isUser) Alignment.End else Alignment.Start,
     ) {
-        Surface(
-            modifier = Modifier.widthIn(max = 320.dp),
-            color = bg,
-            shape = RoundedCornerShape(
-                topStart = 18.dp,
-                topEnd = 18.dp,
-                bottomStart = if (isUser) 18.dp else 4.dp,
-                bottomEnd = if (isUser) 4.dp else 18.dp,
-            ),
-            border = BorderStroke(0.5.dp, borderColor),
-        ) {
-            Column(modifier = Modifier.padding(14.dp)) {
+        if (isUser) {
+            // ─── USER MESSAGE BUBBLE ───
+            Surface(
+                modifier = Modifier.widthIn(max = 340.dp),
+                color = bg,
+                shape = RoundedCornerShape(
+                    topStart = 18.dp,
+                    topEnd = 18.dp,
+                    bottomStart = 18.dp,
+                    bottomEnd = 4.dp,
+                ),
+                border = BorderStroke(0.5.dp, borderColor),
+            ) {
                 Text(
                     text = message.content,
                     style = TextStyle(fontSize = 15.sp, color = textColor, lineHeight = 22.sp),
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
                 )
+            }
+        } else {
+            // ─── ASSISTANT MESSAGE (FULL PWA RICH SPECIFICATION) ───
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                // 1. Eyebrow Header: "Ñ" badge + "Ñkyel" + Model Chip
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(22.dp)
+                            .clip(RoundedCornerShape(6.dp))
+                            .background(accentColor),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Ñ",
+                            style = TextStyle(
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black
+                            )
+                        )
+                    }
 
-                // AI message actions (NOT on user messages)
-                if (!isUser && !message.isStreaming) {
-                    Spacer(modifier = Modifier.height(10.dp))
-                    Divider(color = borderColor, thickness = 0.5.dp)
-                    Spacer(modifier = Modifier.height(6.dp))
-                    Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-                        listOf(
-                            Icons.Filled.ContentCopy to "Copier",
-                            Icons.Filled.Share to "Partager",
-                            Icons.Filled.VolumeUp to "Lire",
-                            Icons.Filled.ThumbUp to "J'aime",
-                            Icons.Filled.ThumbDown to "Je n'aime pas",
-                            Icons.Filled.Refresh to "Relancer la Chasse",
-                        ).forEach { (icon, desc) ->
-                            IconButton(
-                                onClick = { /* TODO: wire action callbacks */ },
-                                modifier = Modifier.size(28.dp),
+                    Text(
+                        text = "Ñkyel",
+                        style = TextStyle(
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = textColor
+                        )
+                    )
+
+                    val modelLabel = message.modelDisplayName ?: "Ñkyel Pro"
+                    Surface(
+                        color = accentColor.copy(alpha = 0.12f),
+                        shape = RoundedCornerShape(4.dp)
+                    ) {
+                        Text(
+                            text = modelLabel,
+                            style = TextStyle(
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = accentColor
+                            ),
+                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                        )
+                    }
+                }
+
+                // 2. Thinking / Deep Reasoning Block
+                if (message.isThinking || message.reasoningText.isNotBlank()) {
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(12.dp))
+                            .clickable { isThinkingExpanded = !isThinkingExpanded },
+                        color = bg.copy(alpha = 0.5f),
+                        shape = RoundedCornerShape(12.dp),
+                        border = BorderStroke(0.5.dp, accentColor.copy(alpha = 0.25f))
+                    ) {
+                        Column(modifier = Modifier.padding(10.dp)) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-                                Icon(imageVector = icon, contentDescription = desc, tint = textSecondaryColor.copy(alpha = 0.6f), modifier = Modifier.size(14.dp))
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                ) {
+                                    val pulse = rememberInfiniteTransition(label = "think")
+                                    val alpha by pulse.animateFloat(
+                                        initialValue = 0.3f,
+                                        targetValue = 1f,
+                                        animationSpec = infiniteRepeatable(tween(700), RepeatMode.Reverse),
+                                        label = "tAlpha"
+                                    )
+                                    Box(
+                                        modifier = Modifier
+                                            .size(8.dp)
+                                            .clip(CircleShape)
+                                            .background(accentColor.copy(alpha = if (message.isThinking) alpha else 1f))
+                                    )
+                                    Text(
+                                        text = if (message.isThinking) "Raisonnement de l'Agent en cours…" else "Raisonnement de l'Agent",
+                                        style = TextStyle(
+                                            fontSize = 12.sp,
+                                            fontWeight = FontWeight.SemiBold,
+                                            color = accentColor
+                                        )
+                                    )
+                                }
+                                Icon(
+                                    imageVector = if (isThinkingExpanded) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore,
+                                    contentDescription = null,
+                                    tint = textSecondaryColor,
+                                    modifier = Modifier.size(18.dp)
+                                )
+                            }
+
+                            if (isThinkingExpanded && message.reasoningText.isNotBlank()) {
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Text(
+                                    text = message.reasoningText,
+                                    style = TextStyle(
+                                        fontSize = 12.sp,
+                                        color = textSecondaryColor,
+                                        lineHeight = 17.sp,
+                                        fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
+
+                // 3. Tool Activity Indicator (DeerFlow 2.0 / Agent Skills)
+                message.toolActivity?.let { tool ->
+                    Surface(
+                        color = accentColor.copy(alpha = 0.08f),
+                        shape = RoundedCornerShape(8.dp),
+                        border = BorderStroke(0.5.dp, accentColor.copy(alpha = 0.2f))
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(6.dp)
+                        ) {
+                            if (tool.isRunning) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(12.dp),
+                                    strokeWidth = 1.5.dp,
+                                    color = accentColor
+                                )
+                            } else {
+                                Icon(
+                                    imageVector = Icons.Filled.CheckCircle,
+                                    contentDescription = null,
+                                    tint = GabomaColors.SuccessGreen,
+                                    modifier = Modifier.size(14.dp)
+                                )
+                            }
+                            Text(
+                                text = "Outil : ${tool.name}",
+                                style = TextStyle(
+                                    fontSize = 11.sp,
+                                    fontWeight = FontWeight.Medium,
+                                    color = textColor
+                                )
+                            )
+                        }
+                    }
+                }
+
+                // 4. Task Checklist (Manus / DeerFlow)
+                if (message.todos.isNotEmpty()) {
+                    TaskChecklist(
+                        todos = message.todos.map {
+                            com.smartandj.gabomagpt.stream.NkyelStreamEvent.TodoItem(
+                                id = it.id,
+                                text = it.text,
+                                done = it.done,
+                                inProgress = it.inProgress
+                            )
+                        }
+                    )
+                }
+
+                // 5. A2UI Declarative Card
+                message.a2uiCard?.let { a2ui ->
+                    var connected by remember { mutableStateOf(a2ui.isConnected) }
+                    Surface(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(16.dp)),
+                        color = bg,
+                        shape = RoundedCornerShape(16.dp),
+                        border = BorderStroke(1.dp, borderColor)
+                    ) {
+                        Column(modifier = Modifier.padding(14.dp)) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Lock,
+                                        contentDescription = null,
+                                        tint = accentColor,
+                                        modifier = Modifier.size(18.dp)
+                                    )
+                                    Text(
+                                        text = a2ui.title,
+                                        style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Bold, color = textColor)
+                                    )
+                                }
+                                Surface(
+                                    color = accentColor.copy(alpha = 0.1f),
+                                    shape = RoundedCornerShape(4.dp)
+                                ) {
+                                    Text(
+                                        text = "A2UI SÉCURISÉ",
+                                        style = TextStyle(fontSize = 9.sp, fontWeight = FontWeight.Bold, color = accentColor),
+                                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                    )
+                                }
+                            }
+                            Spacer(modifier = Modifier.height(6.dp))
+                            Text(
+                                text = "Ñkyel requiert une autorisation chiffrée AES-256 pour connecter la ressource.",
+                                style = TextStyle(fontSize = 11.sp, color = textSecondaryColor)
+                            )
+                            Spacer(modifier = Modifier.height(10.dp))
+                            Button(
+                                onClick = { connected = true },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = if (connected) GabomaColors.SuccessGreen else accentColor
+                                ),
+                                shape = RoundedCornerShape(10.dp),
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Text(
+                                    text = if (connected) "✓ Intégration prête" else "Autoriser la connexion",
+                                    style = TextStyle(
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = if (connected) Color.White else Color.Black
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
+
+                // 6. A2A Multi-Agent Delegation
+                if (message.a2aDelegations.isNotEmpty()) {
+                    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                        message.a2aDelegations.forEach { del ->
+                            Surface(
+                                color = bg.copy(alpha = 0.6f),
+                                shape = RoundedCornerShape(8.dp),
+                                border = BorderStroke(0.5.dp, borderColor)
+                            ) {
+                                Row(
+                                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                ) {
+                                    Text(
+                                        text = "⚡ A2A Delegation:",
+                                        style = TextStyle(fontSize = 10.sp, fontWeight = FontWeight.Bold, color = accentColor)
+                                    )
+                                    Text(
+                                        text = "${del.parentAgent} ➔ ${del.targetAgent}",
+                                        style = TextStyle(fontSize = 10.sp, color = textColor)
+                                    )
+                                    if (del.taskScope.isNotBlank()) {
+                                        Text(
+                                            text = "(${del.taskScope})",
+                                            style = TextStyle(fontSize = 10.sp, color = textSecondaryColor)
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // 7. MCP Server status chip
+                message.mcpStatus?.let { mcp ->
+                    Surface(
+                        color = bg.copy(alpha = 0.6f),
+                        shape = RoundedCornerShape(8.dp),
+                        border = BorderStroke(0.5.dp, borderColor)
+                    ) {
+                        Text(
+                            text = "🔌 MCP Server [${mcp.serverId}] : ${mcp.toolCount} outils actifs",
+                            style = TextStyle(fontSize = 10.sp, color = textSecondaryColor),
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                        )
+                    }
+                }
+
+                // 8. Main Markdown Message Text / Streaming
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = bg,
+                    shape = RoundedCornerShape(18.dp),
+                    border = BorderStroke(0.5.dp, borderColor),
+                ) {
+                    Column(modifier = Modifier.padding(14.dp)) {
+                        if (message.content.isNotBlank()) {
+                            if (message.isStreaming) {
+                                StreamingMessageText(
+                                    text = message.content,
+                                    isStreaming = true,
+                                    color = textColor
+                                )
+                            } else {
+                                GabomaMarkdownRenderer(
+                                    markdown = message.content,
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                            }
+                        } else if (message.isStreaming) {
+                            StreamingIndicator(accent = accentColor, bg = bg, border = borderColor)
+                        }
+
+                        // 9. Deliverable Artifact Card
+                        message.artifact?.let { art ->
+                            Spacer(modifier = Modifier.height(12.dp))
+                            Surface(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clip(RoundedCornerShape(14.dp)),
+                                color = bg.copy(alpha = 0.9f),
+                                shape = RoundedCornerShape(14.dp),
+                                border = BorderStroke(1.dp, accentColor.copy(alpha = 0.35f))
+                            ) {
+                                Row(
+                                    modifier = Modifier.padding(12.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                                        modifier = Modifier.weight(1f)
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .size(36.dp)
+                                                .clip(RoundedCornerShape(8.dp))
+                                                .background(accentColor.copy(alpha = 0.15f)),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Icon(
+                                                imageVector = when (art.type) {
+                                                    ArtifactType.PDF -> Icons.Filled.PictureAsPdf
+                                                    ArtifactType.CODE -> Icons.Filled.Code
+                                                    else -> Icons.Filled.Description
+                                                },
+                                                contentDescription = null,
+                                                tint = accentColor,
+                                                modifier = Modifier.size(20.dp)
+                                            )
+                                        }
+
+                                        Column {
+                                            Text(
+                                                text = art.title,
+                                                style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.SemiBold, color = textColor),
+                                                maxLines = 1,
+                                                overflow = TextOverflow.Ellipsis
+                                            )
+                                            Text(
+                                                text = "${art.type.name} · Livrable prêt",
+                                                style = TextStyle(fontSize = 11.sp, color = GabomaColors.SuccessGreen)
+                                            )
+                                        }
+                                    }
+
+                                    Button(
+                                        onClick = {
+                                            val url = art.storageUrl ?: "${NkyelNetworkConfig.ARTIFACTS_URL}/${art.id}/export"
+                                            try {
+                                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                                                context.startActivity(intent)
+                                            } catch (e: Exception) {
+                                                Toast.makeText(context, "Ouverture impossible: ${e.message}", Toast.LENGTH_SHORT).show()
+                                            }
+                                        },
+                                        colors = ButtonDefaults.buttonColors(containerColor = accentColor),
+                                        shape = RoundedCornerShape(8.dp),
+                                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
+                                    ) {
+                                        Text(
+                                            text = "Ouvrir",
+                                            style = TextStyle(fontSize = 11.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
+                        // 10. Sources List
+                        if (message.sources.isNotEmpty()) {
+                            Spacer(modifier = Modifier.height(10.dp))
+                            Text(
+                                text = "Sources vérifiées (${message.sources.size})",
+                                style = TextStyle(fontSize = 11.sp, fontWeight = FontWeight.SemiBold, color = textSecondaryColor)
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                                message.sources.take(4).forEach { src ->
+                                    Surface(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .clip(RoundedCornerShape(8.dp))
+                                            .clickable {
+                                                if (src.url.isNotBlank()) {
+                                                    try {
+                                                        context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(src.url)))
+                                                    } catch (_: Exception) {}
+                                                }
+                                            },
+                                        color = bg.copy(alpha = 0.5f),
+                                        shape = RoundedCornerShape(8.dp),
+                                        border = BorderStroke(0.5.dp, borderColor)
+                                    ) {
+                                        Row(
+                                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp),
+                                            verticalAlignment = Alignment.CenterVertically,
+                                            horizontalArrangement = Arrangement.SpaceBetween
+                                        ) {
+                                            Text(
+                                                text = src.title,
+                                                style = TextStyle(fontSize = 11.sp, color = textColor),
+                                                maxLines = 1,
+                                                overflow = TextOverflow.Ellipsis,
+                                                modifier = Modifier.weight(1f)
+                                            )
+                                            Text(
+                                                text = src.host,
+                                                style = TextStyle(fontSize = 10.sp, color = accentColor),
+                                                modifier = Modifier.padding(start = 6.dp)
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // 11. AI Action Bar
+                        if (!message.isStreaming && message.content.isNotBlank()) {
+                            Spacer(modifier = Modifier.height(10.dp))
+                            Divider(color = borderColor, thickness = 0.5.dp)
+                            Spacer(modifier = Modifier.height(6.dp))
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+                                    // Copier
+                                    IconButton(
+                                        onClick = {
+                                            clipboardManager.setText(AnnotatedString(message.content))
+                                            Toast.makeText(context, "Copié dans le presse-papier", Toast.LENGTH_SHORT).show()
+                                        },
+                                        modifier = Modifier.size(30.dp)
+                                    ) {
+                                        Icon(imageVector = Icons.Filled.ContentCopy, contentDescription = "Copier", tint = textSecondaryColor.copy(alpha = 0.7f), modifier = Modifier.size(15.dp))
+                                    }
+
+                                    // Partager
+                                    IconButton(
+                                        onClick = {
+                                            val sendIntent = Intent().apply {
+                                                action = Intent.ACTION_SEND
+                                                putExtra(Intent.EXTRA_TEXT, message.content)
+                                                type = "text/plain"
+                                            }
+                                            context.startActivity(Intent.createChooser(sendIntent, "Partager avec"))
+                                        },
+                                        modifier = Modifier.size(30.dp)
+                                    ) {
+                                        Icon(imageVector = Icons.Filled.Share, contentDescription = "Partager", tint = textSecondaryColor.copy(alpha = 0.7f), modifier = Modifier.size(15.dp))
+                                    }
+
+                                    // J'aime
+                                    IconButton(
+                                        onClick = { Toast.makeText(context, "Merci pour votre retour !", Toast.LENGTH_SHORT).show() },
+                                        modifier = Modifier.size(30.dp)
+                                    ) {
+                                        Icon(imageVector = Icons.Filled.ThumbUp, contentDescription = "J'aime", tint = textSecondaryColor.copy(alpha = 0.7f), modifier = Modifier.size(15.dp))
+                                    }
+
+                                    // Je n'aime pas
+                                    IconButton(
+                                        onClick = { Toast.makeText(context, "Merci, nous nous améliorons", Toast.LENGTH_SHORT).show() },
+                                        modifier = Modifier.size(30.dp)
+                                    ) {
+                                        Icon(imageVector = Icons.Filled.ThumbDown, contentDescription = "Je n'aime pas", tint = textSecondaryColor.copy(alpha = 0.7f), modifier = Modifier.size(15.dp))
+                                    }
+
+                                    // Relancer
+                                    IconButton(
+                                        onClick = onRegenerate,
+                                        modifier = Modifier.size(30.dp)
+                                    ) {
+                                        Icon(imageVector = Icons.Filled.Refresh, contentDescription = "Relancer", tint = textSecondaryColor.copy(alpha = 0.7f), modifier = Modifier.size(15.dp))
+                                    }
+                                }
+
+                                Text(
+                                    text = "Souverain · Ñkyel AI",
+                                    style = TextStyle(fontSize = 9.sp, color = textSecondaryColor.copy(alpha = 0.4f), fontWeight = FontWeight.SemiBold)
+                                )
                             }
                         }
                     }

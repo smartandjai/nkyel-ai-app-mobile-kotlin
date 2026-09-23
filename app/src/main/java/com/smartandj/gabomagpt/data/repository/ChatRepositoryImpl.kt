@@ -40,16 +40,25 @@ class ChatRepositoryImpl @Inject constructor(
             trySend(ChatStreamEvent.ThinkingStart)
         }
 
+        val userId = try {
+            com.clerk.api.Clerk.user?.id ?: "clerk_user_nkyel"
+        } catch (_: Exception) {
+            "clerk_user_nkyel"
+        }
+
         // Build Ñkyel NkyelRunRequest payload
         val featuresObj = JSONObject().apply {
             put("deepResearch", model.isDeepResearch || isLoxoActive)
             put("executiveArtifacts", true)
             put("requiresDeerflow", model.requiresDeerflow)
+            put("agUiCompatible", true)
+            put("mcpEnabled", true)
+            put("a2aEnabled", true)
         }
 
         val jsonBody = JSONObject().apply {
             put("message", message)
-            put("user_id", "clerk_user_nkyel")
+            put("user_id", userId)
             put("conversation_id", convId)
             put("engine", model.backendEngine)
             put("features", featuresObj)
@@ -113,18 +122,80 @@ class ChatRepositoryImpl @Inject constructor(
                         // 2. Reasoning / Thinking
                         eventType == "reasoning" || agUiType == "REASONING_CHUNK" -> {
                             trySend(ChatStreamEvent.ThinkingStart)
+                            val rText = json.optString("content", dataObj?.optString("content", json.optString("text", "")))
+                            if (rText.isNotEmpty()) {
+                                trySend(ChatStreamEvent.Reasoning(rText))
+                            }
                         }
 
-                        // 3. Tool execution
-                        eventType == "tool.started" || agUiType == "TOOL_CALL_START" -> {
+                        // 3. Tool execution (DeerFlow / Agentic tools)
+                        eventType == "tool.started" || eventType == "tool_start" || agUiType == "TOOL_CALL_START" -> {
+                            val toolName = json.optString("tool_name", json.optString("tool", dataObj?.optString("tool_name", "Exécution outil")))
                             trySend(ChatStreamEvent.ThinkingStart)
+                            trySend(ChatStreamEvent.ToolActivity(name = toolName, status = "running", isRunning = true))
                         }
 
-                        eventType == "tool.completed" || agUiType == "TOOL_CALL_RESULT" -> {
-                            trySend(ChatStreamEvent.ThinkingDone)
+                        eventType == "tool.completed" || eventType == "tool_end" || agUiType == "TOOL_CALL_RESULT" -> {
+                            val toolName = json.optString("tool_name", json.optString("tool", dataObj?.optString("tool_name", "Outil terminé")))
+                            val res = json.optString("result", dataObj?.optString("result", ""))
+                            trySend(ChatStreamEvent.ToolActivity(name = toolName, status = "completed", result = res, isRunning = false))
                         }
 
-                        // 4. Source discovered (Tavily / Loxo Radar)
+                        // 4. A2UI (Agent-to-User Interface) safe declarative UI
+                        eventType == "vie.a2ui.render.v1" || eventType == "a2ui_render" || agUiType == "A2UI_RENDER" -> {
+                            val comp = json.optString("component", dataObj?.optString("component", "google_drive"))
+                            val title = json.optString("title", dataObj?.optString("title", "Connexion A2UI Sécurisée"))
+                            trySend(ChatStreamEvent.A2UIRender(componentType = comp, title = title, rawJson = trimmed))
+                        }
+
+                        // 5. A2A (Agent-to-Agent Multi-Agent Delegation)
+                        eventType == "vie.agent.spawned.v1" || eventType == "a2a_delegation" || agUiType == "A2A_DELEGATION" -> {
+                            val delId = json.optString("delegation_id", dataObj?.optString("delegation_id", "del_${System.currentTimeMillis()}"))
+                            val parent = json.optString("parent_agent", dataObj?.optString("parent_agent", "Ñkyel Principal"))
+                            val target = json.optString("target_agent", dataObj?.optString("target_agent", "Spécialiste DeerFlow"))
+                            val scope = json.optString("task_scope", dataObj?.optString("task_scope", "Mission multi-agents"))
+                            trySend(ChatStreamEvent.A2ADelegation(delegationId = delId, parentAgent = parent, targetAgent = target, taskScope = scope))
+                        }
+
+                        // 6. MCP (Model Context Protocol Server)
+                        eventType == "mcp.server.connected" || eventType == "mcp_event" || agUiType == "MCP_SERVER_EVENT" -> {
+                            val sId = json.optString("server_id", dataObj?.optString("server_id", "deerflow_mcp"))
+                            val status = json.optString("status", dataObj?.optString("status", "connected"))
+                            val tools = json.optInt("tool_count", dataObj?.optInt("tool_count", 8))
+                            trySend(ChatStreamEvent.MCPServer(serverId = sId, status = status, toolCount = tools))
+                        }
+
+                        // 7. Todos / Task Checklist (Manus & Deer Flow)
+                        eventType == "todo_update" || eventType == "todos" -> {
+                            val todoArr = json.optJSONArray("todos") ?: dataObj?.optJSONArray("todos")
+                            if (todoArr != null) {
+                                val list = mutableListOf<com.smartandj.gabomagpt.domain.model.TodoItemInfo>()
+                                for (i in 0 until todoArr.length()) {
+                                    val tObj = todoArr.optJSONObject(i)
+                                    if (tObj != null) {
+                                        list.add(
+                                            com.smartandj.gabomagpt.domain.model.TodoItemInfo(
+                                                id = tObj.optString("id", "todo_$i"),
+                                                text = tObj.optString("text", ""),
+                                                done = tObj.optBoolean("done", false),
+                                                inProgress = tObj.optBoolean("in_progress", false)
+                                            )
+                                        )
+                                    }
+                                }
+                                trySend(ChatStreamEvent.Todos(list))
+                            }
+                        }
+
+                        // 8. Verification (Sovereign languages)
+                        eventType == "verification" -> {
+                            val v = json.optBoolean("verified", true)
+                            val lang = json.optString("language", "Gabon")
+                            val conf = json.optDouble("confidence", 0.98).toFloat()
+                            trySend(ChatStreamEvent.Verification(language = lang, confidence = conf, verified = v))
+                        }
+
+                        // 9. Source discovered (Tavily / Loxo Radar)
                         eventType == "source_found" || (agUiType == "STATE_DELTA" && (json.has("source") || json.has("sources"))) -> {
                             val srcObj = json.optJSONObject("source") ?: dataObj?.optJSONObject("source")
                             if (srcObj != null) {

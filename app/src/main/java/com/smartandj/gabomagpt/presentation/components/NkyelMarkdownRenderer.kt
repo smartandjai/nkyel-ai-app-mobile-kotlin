@@ -233,3 +233,19 @@ fun MarkdownTableCell(
             .padding(8.dp)
     )
 }
+
+@Composable
+fun NkyelMarkdownRenderer(
+    markdown: String,
+    modifier: Modifier = Modifier,
+    isStreaming: Boolean = false,
+    onCodeBlockClick: ((String, String) -> Unit)? = null
+) {
+    GabomaMarkdownRenderer(
+        markdown = markdown,
+        modifier = modifier,
+        isStreaming = isStreaming,
+        onCodeBlockClick = onCodeBlockClick
+    )
+}
+

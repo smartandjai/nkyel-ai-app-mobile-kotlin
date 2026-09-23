@@ -67,6 +67,55 @@ class ChatViewModel @Inject constructor(
         )
     }
 
+    fun sendMessage(text: String, modelId: String = "aurata") {
+        val model = when (modelId.lowercase()) {
+            "nkyel" -> GabomaChatModel.NYEL
+            "wandana" -> GabomaChatModel.WANDANA
+            "onyxgris" -> GabomaChatModel.ONYX_GRIS
+            "black-panther" -> GabomaChatModel.BLACK_PANTHER
+            else -> GabomaChatModel.AURATA
+        }
+        val trimmed = text.trim()
+        if (trimmed.isBlank() || _uiState.value.isStreaming) return
+
+        val userMessage = ChatMessage(
+            id = UUID.randomUUID().toString(),
+            role = ChatRole.USER,
+            content = trimmed
+        )
+        val assistantMessageId = UUID.randomUUID().toString()
+        val assistantMessage = ChatMessage(
+            id = assistantMessageId,
+            role = ChatRole.ASSISTANT,
+            content = "",
+            modelDisplayName = model.displayName,
+            isStreaming = true
+        )
+
+        _uiState.value = _uiState.value.copy(
+            selectedModel = model,
+            messages = _uiState.value.messages + userMessage + assistantMessage,
+            input = "",
+            isStreaming = true,
+            errorMessage = null
+        )
+
+        streamJob?.cancel()
+        streamJob = viewModelScope.launch {
+            sendChatMessageUseCase(
+                message = trimmed,
+                model = model,
+                sessionId = _uiState.value.sessionId,
+                isLoxoActive = _uiState.value.isLoxoActive
+            ).collect { event ->
+                handleStreamEvent(
+                    event = event,
+                    assistantMessageId = assistantMessageId
+                )
+            }
+        }
+    }
+
     fun sendMessage() {
         val current = _uiState.value
         val message = current.input.trim()
@@ -199,6 +248,77 @@ class ChatViewModel @Inject constructor(
                 updateAssistantMessage(assistantMessageId) { message ->
                     message.copy(isThinking = false)
                 }
+            }
+
+            is ChatStreamEvent.Reasoning -> {
+                updateAssistantMessage(assistantMessageId) { message ->
+                    message.copy(
+                        isThinking = true,
+                        reasoningText = message.reasoningText + event.text
+                    )
+                }
+            }
+
+            is ChatStreamEvent.ToolActivity -> {
+                updateAssistantMessage(assistantMessageId) { message ->
+                    message.copy(
+                        toolActivity = com.smartandj.gabomagpt.domain.model.ToolActivityInfo(
+                            name = event.name,
+                            status = event.status,
+                            result = event.result,
+                            isRunning = event.isRunning
+                        )
+                    )
+                }
+            }
+
+            is ChatStreamEvent.A2UIRender -> {
+                updateAssistantMessage(assistantMessageId) { message ->
+                    message.copy(
+                        a2uiCard = com.smartandj.gabomagpt.domain.model.A2UICardData(
+                            componentType = event.componentType,
+                            title = event.title,
+                            rawJson = event.rawJson
+                        )
+                    )
+                }
+            }
+
+            is ChatStreamEvent.A2ADelegation -> {
+                updateAssistantMessage(assistantMessageId) { message ->
+                    message.copy(
+                        a2aDelegations = message.a2aDelegations + com.smartandj.gabomagpt.domain.model.A2ADelegationInfo(
+                            delegationId = event.delegationId,
+                            parentAgent = event.parentAgent,
+                            targetAgent = event.targetAgent,
+                            taskScope = event.taskScope
+                        )
+                    )
+                }
+            }
+
+            is ChatStreamEvent.MCPServer -> {
+                updateAssistantMessage(assistantMessageId) { message ->
+                    message.copy(
+                        mcpStatus = com.smartandj.gabomagpt.domain.model.MCPStatusInfo(
+                            serverId = event.serverId,
+                            status = event.status,
+                            toolCount = event.toolCount
+                        )
+                    )
+                }
+            }
+
+            is ChatStreamEvent.Todos -> {
+                updateAssistantMessage(assistantMessageId) { message ->
+                    message.copy(
+                        todos = event.items
+                    )
+                }
+            }
+
+            is ChatStreamEvent.Verification -> {
+                // Verified Gabon sovereignty
             }
 
             is ChatStreamEvent.Sources -> {

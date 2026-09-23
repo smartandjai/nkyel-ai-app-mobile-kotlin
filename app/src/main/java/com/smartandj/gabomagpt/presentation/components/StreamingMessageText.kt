@@ -33,67 +33,34 @@ fun StreamingMessageText(
     color: Color = GabomaColors.TextPrimary,
     onCompleted: (() -> Unit)? = null
 ) {
-    var displayedText by remember(text) { mutableStateOf("") }
-    var tokens by remember(text) { mutableStateOf<List<AnimatedToken>>(emptyList()) }
-
-    // Split text into words (tokens) and initialize animation states
-    LaunchedEffect(text) {
-        if (text.isEmpty()) {
-            displayedText = ""
-            tokens = emptyList()
-            return@LaunchedEffect
-        }
-
-        val words = text.split(" ")
-        tokens = words.map { AnimatedToken(it) }
-        displayedText = ""
-
-        // Animate each token with 18ms delay (~55 tokens/sec)
-        words.forEachIndexed { index, word ->
-            delay(18)  // 18ms per token = 55 tokens/sec
-            displayedText = words.take(index + 1).joinToString(" ")
-
-            // Smooth alpha animation (160ms, FastOutSlowInEasing)
-            tokens.getOrNull(index)?.let { token ->
-                launch {
-                    token.alphaAnimatable.animateTo(
-                        targetValue = 1f,
-                        animationSpec = tween(
-                            durationMillis = 160,
-                            easing = FastOutSlowInEasing
-                        )
-                    )
-                }
-            }
-        }
-
-        if (!isStreaming) {
-            onCompleted?.invoke()
-        }
-    }
-
     // Blinking cursor during streaming
     val infiniteTransition = rememberInfiniteTransition(label = "streaming_cursor")
     val cursorAlpha by infiniteTransition.animateFloat(
         initialValue = 0.2f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
-            animation = tween(durationMillis = 650),
+            animation = tween(durationMillis = 500),
             repeatMode = RepeatMode.Reverse
         ),
         label = "cursor_alpha"
     )
 
+    LaunchedEffect(isStreaming) {
+        if (!isStreaming) {
+            onCompleted?.invoke()
+        }
+    }
+
     val displayText = if (isStreaming) {
-        "$displayedText▌".takeIf { displayedText.isNotEmpty() } ?: "▌"
+        "$text▌"
     } else {
-        displayedText
+        text
     }
 
     Text(
         text = displayText,
         style = textStyle,
-        color = if (isStreaming && displayedText.isEmpty()) {
+        color = if (isStreaming && text.isEmpty()) {
             GabomaColors.AccentBlackPanther.copy(alpha = cursorAlpha)
         } else {
             color
