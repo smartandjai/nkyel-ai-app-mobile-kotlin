@@ -13,6 +13,8 @@ import kotlinx.serialization.json.jsonPrimitive
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.sse.EventSource
 import okhttp3.sse.EventSourceListener
 import okhttp3.sse.EventSources
@@ -63,10 +65,8 @@ class GabomaStreamClient @Inject constructor(
 
         fun createRequest(): Request {
             val url = "$baseUrl$SSE_ENDPOINT"
-            val requestBody = okhttp3.RequestBody.create(
-                okhttp3.MediaType.parse("application/json"),
-                """{"thread_id":"$threadId","message":${json.encodeToString(kotlinx.serialization.serializer(), message)}}"""
-            )
+            val jsonPayload = """{"thread_id":"$threadId","message":${json.encodeToString(kotlinx.serialization.serializer(), message)}}"""
+            val requestBody = jsonPayload.toRequestBody("application/json".toMediaType())
 
             return Request.Builder()
                 .url(url)

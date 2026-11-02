@@ -58,8 +58,7 @@ class NkyelApiClient @Inject constructor() {
 
     private suspend fun getToken(): String? {
         return try {
-            val session = Clerk.getActiveSession() ?: return null
-            session.getToken()
+            Clerk.auth.getToken()
         } catch (e: Exception) {
             null
         }

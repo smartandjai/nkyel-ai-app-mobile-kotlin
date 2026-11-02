@@ -50,13 +50,14 @@ class AuthViewModel @Inject constructor(
     fun checkAuth() {
         viewModelScope.launch {
             try {
-                val session = Clerk.getActiveSession()
+                val session = Clerk.session
                 val clerkUser = Clerk.user
 
-                if (session != null) {
-                    val userId = clerkUser?.id ?: session.userId
-                    val name = clerkUser?.fullName
-                        ?: listOfNotNull(clerkUser?.firstName, clerkUser?.lastName).joinToString(" ").ifBlank { null }
+                if (session != null || clerkUser != null) {
+                    val userId = clerkUser?.id ?: session?.id ?: ""
+                    val name = listOfNotNull(clerkUser?.firstName, clerkUser?.lastName)
+                        .joinToString(" ")
+                        .ifBlank { null }
                         ?: clerkUser?.primaryEmailAddress?.emailAddress?.substringBefore("@")
                         ?: "Membre Ñkyel"
                     val avatar = clerkUser?.imageUrl
@@ -96,7 +97,7 @@ class AuthViewModel @Inject constructor(
     fun signOut() {
         viewModelScope.launch {
             try {
-                Clerk.getActiveSession()?.signOut()
+                Clerk.auth.signOut()
             } catch (_: Exception) {}
             _authState.value = AuthState.SignedOut
             _userProfile.value = null

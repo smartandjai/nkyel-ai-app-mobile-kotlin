@@ -109,6 +109,7 @@ data class GabomaThemeColors(
     val textMuted: Color,
     val border: Color,
     val error: Color = GabomaColors.ErrorRed,
+    val success: Color = Color(0xFF22C55E),
     val isLight: Boolean = false
 )
 
