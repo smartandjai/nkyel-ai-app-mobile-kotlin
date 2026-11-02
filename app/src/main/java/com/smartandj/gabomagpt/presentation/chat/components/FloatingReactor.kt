@@ -35,7 +35,7 @@ val GABOMA_MODELS = listOf(
     GabomaModel("nkyel", "Ñkyel", "Mode Pro — raisonnement logique profond", Icons.Default.Psychology),
     GabomaModel("onyxgris", "OnyxGris", "Agent Perroquet Gris — tâches simples", Icons.Default.SmartToy),
     GabomaModel("blackpanther", "Black Panther", "Le GOAT — multi-agent autonome", Icons.Default.Pets),
-    GabomaModel("wandana", "Wandana", "L'Éléphant — recherche web profonde", GabomaIcons.Wandana)
+    GabomaModel("wandana", "Wandana", "L'Éléphant — recherche web profonde", Icons.Default.Search)
 )
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
@@ -166,7 +166,8 @@ fun FloatingReactor(
                 placeholder = { Text("Message ${activeModel.name}...", color = Color.White.copy(alpha = 0.5f)) },
                 modifier = Modifier.weight(1f),
                 colors = TextFieldDefaults.colors(
-                    containerColor = Color.Transparent,
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
                     cursorColor = GabomaTheme.colors.primary

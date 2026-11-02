@@ -260,7 +260,7 @@ fun AntreScreen(
                         
                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                             Text("Statut réseau", color = Color.White.copy(alpha = 0.7f), fontSize = 14.sp)
-                            Text("Optimal • 14ms", color = GabomaTheme.colors.success, fontSize = 14.sp, fontWeight = FontWeight.Medium)
+                            Text("Optimal • 14ms", color = Color(0xFF22C55E), fontSize = 14.sp, fontWeight = FontWeight.Medium)
                         }
                         
                         Spacer(modifier = Modifier.height(24.dp))
