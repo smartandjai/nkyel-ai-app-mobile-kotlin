@@ -127,6 +127,7 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation("com.google.errorprone:error_prone_annotations:2.36.0")
 
     // ── Ktor Client ─────────────────────────────────────────
     implementation(libs.ktor.client.core)
