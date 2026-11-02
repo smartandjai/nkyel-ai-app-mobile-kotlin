@@ -12,7 +12,7 @@
         <!-- Corps streamline -->
         <path
             android:fillColor="@android:color/transparent"
-            android:strokeColor="#C5A059"
+            android:strokeColor="#000000"
             android:strokeWidth="1.2"
             android:strokeLineCap="round"
             android:strokeLineJoin="round"
@@ -20,7 +20,7 @@
         <!-- Rostre -->
         <path
             android:fillColor="@android:color/transparent"
-            android:strokeColor="#FFFFFF"
+            android:strokeColor="#000000"
             android:strokeWidth="1.2"
             android:strokeLineCap="round"
             android:strokeLineJoin="round"
@@ -28,14 +28,14 @@
         <!-- Ventre -->
         <path
             android:fillColor="@android:color/transparent"
-            android:strokeColor="#C5A059"
+            android:strokeColor="#000000"
             android:strokeWidth="1.2"
             android:strokeLineCap="round"
             android:strokeLineJoin="round"
             android:pathData="M11,7.5 C8,9 7.5,7.5 7,8"/>
         <path
             android:fillColor="@android:color/transparent"
-            android:strokeColor="#C5A059"
+            android:strokeColor="#000000"
             android:strokeWidth="1.2"
             android:strokeLineCap="round"
             android:strokeLineJoin="round"
@@ -43,25 +43,25 @@
         <!-- Nageoire caudale -->
         <path
             android:fillColor="@android:color/transparent"
-            android:strokeColor="#00D4AA"
+            android:strokeColor="#000000"
             android:strokeWidth="1.2"
             android:strokeLineCap="round"
             android:pathData="M2,11 L1,9.5"/>
         <path
             android:fillColor="@android:color/transparent"
-            android:strokeColor="#00D4AA"
+            android:strokeColor="#000000"
             android:strokeWidth="1.2"
             android:strokeLineCap="round"
             android:pathData="M2,11 L1,12.5"/>
         <!-- Oeil -->
         <path
-            android:fillColor="#00D4AA"
+            android:fillColor="#000000"
             android:strokeWidth="0"
             android:pathData="M11.1,5.5 a0.4,0.4 0 1,0 0.8,0 a0.4,0.4 0 1,0 -0.8,0"/>
         <!-- Nageoire dorsale -->
         <path
             android:fillColor="@android:color/transparent"
-            android:strokeColor="#00D4AA"
+            android:strokeColor="#000000"
             android:strokeWidth="1.0"
             android:strokeLineCap="round"
             android:strokeLineJoin="round"

@@ -125,57 +125,6 @@ fun ChatMessageBubble(
                     textAlign = TextAlign.Start,
                     modifier = Modifier.fillMaxWidth()
                 )
-
-                if (message.artifact != null) {
-                    Spacer(modifier = Modifier.height(10.dp))
-                    androidx.compose.material3.Surface(
-                        shape = RoundedCornerShape(12.dp),
-                        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, androidx.compose.ui.graphics.Color(0xFFC5A059).copy(alpha = 0.4f)),
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Column(modifier = Modifier.padding(12.dp)) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(8.dp)
-                            ) {
-                                val badgeText = when (message.artifact.type) {
-                                    com.smartandj.gabomagpt.domain.model.ArtifactType.PDF -> "📄 PDF"
-                                    com.smartandj.gabomagpt.domain.model.ArtifactType.DOCX -> "📝 DOCX"
-                                    com.smartandj.gabomagpt.domain.model.ArtifactType.PPTX -> "📊 PPTX"
-                                    com.smartandj.gabomagpt.domain.model.ArtifactType.XLSX -> "📈 XLSX"
-                                    else -> "💎 RENDU"
-                                }
-                                androidx.compose.material3.Surface(
-                                    shape = RoundedCornerShape(6.dp),
-                                    color = androidx.compose.ui.graphics.Color(0xFFC5A059).copy(alpha = 0.2f)
-                                ) {
-                                    Text(
-                                        text = badgeText,
-                                        fontSize = 11.sp,
-                                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                                        color = androidx.compose.ui.graphics.Color(0xFFC5A059),
-                                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
-                                    )
-                                }
-                                Text(
-                                    text = message.artifact.title,
-                                    fontSize = 13.sp,
-                                    fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold,
-                                    color = MaterialTheme.colorScheme.onSurface,
-                                    maxLines = 1,
-                                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(6.dp))
-                            Text(
-                                text = "Livrable souverain Ñkyel AI • Prêt à l'ouverture",
-                                fontSize = 11.sp,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
-                }
             }
         }
 

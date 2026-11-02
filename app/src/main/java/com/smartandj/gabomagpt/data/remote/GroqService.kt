@@ -6,7 +6,7 @@ import com.smartandj.gabomagpt.data.remote.dto.GroqChatRequest
 import com.smartandj.gabomagpt.data.remote.dto.GroqMessage
 import com.smartandj.gabomagpt.data.remote.dto.GroqStreamEvent
 import com.smartandj.gabomagpt.data.remote.dto.ChatStreamEvent
-import com.smartandj.gabomagpt.domain.model.NkyelChatModel
+import com.smartandj.gabomagpt.domain.model.GabomaChatModel
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
@@ -26,22 +26,22 @@ class GroqService @Inject constructor(
     private val httpClient: HttpClient
 ) {
     private val groqApiKey = BuildConfig.GROQ_API_KEY
-    private val groqBaseUrl = NkyelNetworkConfig.GROQ_BASE_URL
+    private val groqBaseUrl = GabomaNetworkConfig.GROQ_BASE_URL
     private val json = Json { ignoreUnknownKeys = true }
 
     fun streamChat(
         message: String,
-        model: NkyelChatModel,
-        systemPrompt: String = "Tu es Ñkyel AI, assistant IA souverain. Réponds en français avec clarté et précision."
+        model: GabomaChatModel,
+        systemPrompt: String = "Tu es Gaboma, assistant IA puissant. Réponds en français avec style et clarté."
     ): Flow<ChatStreamEvent> = flow {
         try {
             val groqModel = when (model) {
-                NkyelChatModel.AURATA -> NkyelNetworkConfig.GROQ_MODEL_AURATA
-                NkyelChatModel.NYEL -> NkyelNetworkConfig.GROQ_MODEL_SONAR
-                NkyelChatModel.WANDANA -> NkyelNetworkConfig.GROQ_MODEL_LOXO
-                NkyelChatModel.ONYX_GRIS -> NkyelNetworkConfig.GROQ_MODEL_ONYX
-                NkyelChatModel.BLACK_PANTHER -> NkyelNetworkConfig.GROQ_MODEL_ONYX
-                NkyelChatModel.NKYEL_SEER -> NkyelNetworkConfig.GROQ_MODEL_SONAR
+                GabomaChatModel.AURATA -> GabomaNetworkConfig.GROQ_MODEL_AURATA
+                GabomaChatModel.NYEL -> GabomaNetworkConfig.GROQ_MODEL_SONAR
+                GabomaChatModel.WANDANA -> GabomaNetworkConfig.GROQ_MODEL_LOXO
+                GabomaChatModel.ONYX_GRIS -> GabomaNetworkConfig.GROQ_MODEL_ONYX
+                GabomaChatModel.BLACK_PANTHER -> GabomaNetworkConfig.GROQ_MODEL_ONYX
+                GabomaChatModel.GABOMA_SEER -> GabomaNetworkConfig.GROQ_MODEL_SONAR
             }
 
             val request = GroqChatRequest(
@@ -123,7 +123,7 @@ Utilisateur: $query
 Analyse profonde basée sur les sources ci-dessus:
             """.trimIndent()
 
-            streamChat(analysisPrompt, NkyelChatModel.WANDANA, systemPrompt).collect { event ->
+            streamChat(analysisPrompt, GabomaChatModel.WANDANA, systemPrompt).collect { event ->
                 emit(event)
             }
         } catch (e: Exception) {

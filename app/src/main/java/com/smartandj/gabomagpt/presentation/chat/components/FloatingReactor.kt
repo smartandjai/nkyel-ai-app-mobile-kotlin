@@ -23,24 +23,20 @@ import androidx.compose.ui.unit.sp
 import com.smartandj.gabomagpt.presentation.theme.GabomaTheme
 import com.smartandj.gabomagpt.presentation.theme.GabomaIcons
 
-data class NkyelModel(
+data class GabomaModel(
     val id: String,
     val name: String,
     val description: String,
     val icon: ImageVector
 )
 
-typealias GabomaModel = NkyelModel
-
-val NKYEL_MODELS = listOf(
-    NkyelModel("aurata", "Aurata", "Mode Flash — rapide, exécution quotidienne", Icons.Default.Bolt),
-    NkyelModel("nkyel", "Ñkyel", "Mode Pro — raisonnement logique profond", Icons.Default.Psychology),
-    NkyelModel("onyxgris", "OnyxGris", "Agent Perroquet Gris — tâches simples", Icons.Default.SmartToy),
-    NkyelModel("blackpanther", "Black Panther", "Le GOAT — multi-agent autonome", Icons.Default.Pets),
-    NkyelModel("wandana", "Wandana", "L'Éléphant — recherche web profonde", Icons.Default.Search)
+val GABOMA_MODELS = listOf(
+    GabomaModel("aurata", "Aurata", "Mode Flash — rapide, exécution quotidienne", Icons.Default.Bolt),
+    GabomaModel("nkyel", "Ñkyel", "Mode Pro — raisonnement logique profond", Icons.Default.Psychology),
+    GabomaModel("onyxgris", "OnyxGris", "Agent Perroquet Gris — tâches simples", Icons.Default.SmartToy),
+    GabomaModel("blackpanther", "Black Panther", "Le GOAT — multi-agent autonome", Icons.Default.Pets),
+    GabomaModel("wandana", "Wandana", "L'Éléphant — recherche web profonde", GabomaIcons.Wandana)
 )
-
-val GABOMA_MODELS = NKYEL_MODELS
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
 @Composable
@@ -52,7 +48,7 @@ fun FloatingReactor(
     isGenerating: Boolean,
     onStop: () -> Unit
 ) {
-    var activeModel by remember { mutableStateOf(NKYEL_MODELS.first()) }
+    var activeModel by remember { mutableStateOf(GABOMA_MODELS.first()) }
     var isMenuOpen by remember { mutableStateOf(false) }
     var isLiveMode by remember { mutableStateOf(false) }
 
@@ -81,7 +77,7 @@ fun FloatingReactor(
                     .background(Color.Black.copy(alpha = 0.6f))
                     .padding(8.dp)
             ) {
-                NKYEL_MODELS.forEach { model ->
+                GABOMA_MODELS.forEach { model ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -170,10 +166,7 @@ fun FloatingReactor(
                 placeholder = { Text("Message ${activeModel.name}...", color = Color.White.copy(alpha = 0.5f)) },
                 modifier = Modifier.weight(1f),
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    disabledContainerColor = Color.Transparent,
-                    errorContainerColor = Color.Transparent,
+                    containerColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
                     cursorColor = GabomaTheme.colors.primary

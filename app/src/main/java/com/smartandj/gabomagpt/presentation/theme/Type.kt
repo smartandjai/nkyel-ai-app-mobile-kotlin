@@ -21,7 +21,7 @@ val SoraFamily = FontFamily.SansSerif // Replace with FontFamily(Font(R.font.sor
 val OutfitFamily = FontFamily.SansSerif // Replace with FontFamily(Font(R.font.outfit_semibold, FontWeight.SemiBold))
 val JetBrainsMonoFamily = FontFamily.Monospace // Replace with actual JetBrains Mono
 
-val NkyelTypography = Typography(
+val GabomaTypography = Typography(
     // ─────────────────────────────────────────────────────────────────────
     // DISPLAY LEVEL - Outfit SemiBold
     // ─────────────────────────────────────────────────────────────────────
@@ -94,8 +94,6 @@ val NkyelTypography = Typography(
         letterSpacing = 0.sp
     )
 )
-
-val GabomaTypography = NkyelTypography
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CUSTOM TEXT STYLES - Specialized for GabomaGPT V3 UI/UX

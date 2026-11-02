@@ -83,7 +83,7 @@ fun LAntreSidebar(
                 .fillMaxWidth()
                 .background(GabomaColors.SurfaceDepth2)
         ) {
-            // ── HEADER - Text "Ñkyel AI" with dolphin
+            // ── HEADER - Text "Gaboma" only
             // ─────────────────────────────────────────────────────────────────────
             Row(
                 modifier = Modifier
@@ -94,12 +94,12 @@ fun LAntreSidebar(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Ñkyel AI",
+                    text = "Gaboma",
                     style = MaterialTheme.typography.headlineSmall.copy(
                         fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
                         letterSpacing = 1.5.sp
                     ),
-                    color = GabomaColors.AccentBlackPanther
+                    color = GabomaColors.TextPrimary
                 )
             }
 
@@ -112,7 +112,7 @@ fun LAntreSidebar(
                     .verticalScroll(rememberScrollState())
                     .padding(horizontal = 8.dp)
             ) {
-                // ── STATIC ITEMS (Nouvelle Conversation, Recherche, Projets, Le Sanctuaire)
+                // ── STATIC ITEMS (ASCII: Nouvelle Piste, En Piste, Projets, Le Rendu)
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Button(
@@ -127,7 +127,7 @@ fun LAntreSidebar(
                     contentPadding = PaddingValues(vertical = 12.dp)
                 ) {
                     Text(
-                        text = "+ Nouvelle Conversation",
+                        text = "🐾🐾 Nouvelle Piste",
                         style = MaterialTheme.typography.labelLarge.copy(
                             fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
                         ),
@@ -137,19 +137,19 @@ fun LAntreSidebar(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                StaticSidebarItem(icon = "🔍", label = "Recherche Web")
+                StaticSidebarItem(icon = "🌐", label = "Recherche")
                 HorizontalDivider(color = GabomaColors.Divider, thickness = 0.5.dp)
-                StaticSidebarItem(icon = "📁", label = "Missions & Projets")
+                StaticSidebarItem(icon = "📁★", label = "Projets")
                 HorizontalDivider(color = GabomaColors.Divider, thickness = 0.5.dp)
-                StaticSidebarItem(icon = "💎", label = "Le Sanctuaire")
+                StaticSidebarItem(icon = "💎", label = "Le Rendu")
 
                 Spacer(modifier = Modifier.height(16.dp))
                 ConversationDivider()
 
-                // ── CONVERSATIONS RÉCENTES
+                // ── EN PISTE (Récent)
                 if (conversations.values.flatten().isNotEmpty()) {
                     ConversationGroupSection(
-                        title = "Conversations Récentes",
+                        title = "En Piste",
                         conversations = conversations.values.flatten().sortedByDescending { it.timestamp }.take(10),
                         selectedId = selectedConversationId,
                         onSelect = onSelectConversation,
@@ -161,7 +161,7 @@ fun LAntreSidebar(
             }
 
             // ─────────────────────────────────────────────────────────────────────
-            // FOOTER - Quota & Compte Actif
+            // FOOTER - Énergie & Compte Actif
             // ─────────────────────────────────────────────────────────────────────
             Column(
                 modifier = Modifier
@@ -169,7 +169,7 @@ fun LAntreSidebar(
                     .background(GabomaColors.SurfaceDepth3)
                     .padding(16.dp)
             ) {
-                // ── Quota (Au-dessus)
+                // ── Énergie (Au-dessus)
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -178,13 +178,13 @@ fun LAntreSidebar(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.FlashOn,
-                        contentDescription = "Quota",
+                        contentDescription = "Énergie",
                         tint = GabomaColors.AccentBlackPanther,
                         modifier = Modifier.size(16.dp)
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = "Quota d'intelligence",
+                        text = "Énergie de la meute",
                         style = MaterialTheme.typography.bodySmall,
                         color = GabomaColors.TextSecondary,
                         modifier = Modifier.weight(1f)

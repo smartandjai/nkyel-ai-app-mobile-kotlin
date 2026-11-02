@@ -75,15 +75,6 @@ fun GabomaAppTheme(
     }
 }
 
-val LocalNkyelColors = LocalGabomaColors
-
-typealias NkyelThemeColors = GabomaThemeColors
-
-object NkyelTheme {
-    val colors: GabomaThemeColors
-        @Composable get() = LocalGabomaColors.current
-}
-
 /**
  * Singleton accessor for theme colors.
  * Usage: GabomaTheme.colors.primary, GabomaTheme.colors.background, etc.
@@ -118,7 +109,6 @@ data class GabomaThemeColors(
     val textMuted: Color,
     val border: Color,
     val error: Color = GabomaColors.ErrorRed,
-    val success: Color = GabomaColors.SuccessGreen,
     val isLight: Boolean = false
 )
 
@@ -133,7 +123,6 @@ fun resolveGabomaColors(theme: GabomaThemeType): GabomaThemeColors {
         textSecondary = def.textSecondary,
         textMuted = def.textTertiary,
         border = def.accentPrimary.copy(alpha = 0.08f),
-        success = GabomaColors.SuccessGreen,
         isLight = theme.isLight
     )
 }
@@ -175,71 +164,68 @@ fun resolveColorScheme(theme: GabomaThemeType, accent: AccentColor): ColorScheme
 
 @Composable
 fun ZionCoreTheme(
-    theme: NkyelThemeType? = null,
+    theme: GabomaThemeType? = null,
     accent: AccentColor = AccentColor.FORET,
-    gabomaTheme: NkyelThemeDefinition? = null,
-    nkyelTheme: NkyelThemeDefinition? = null,
+    gabomaTheme: GabomaThemeDefinition? = null,
     content: @Composable () -> Unit
 ) {
-    val effectiveTheme = nkyelTheme ?: gabomaTheme
-    if (effectiveTheme != null) {
-        // V3 path: full NkyelThemeDefinition available
-        val isLight = effectiveTheme.type.isLight
+    if (gabomaTheme != null) {
+        // V3 path: full GabomaThemeDefinition available
+        val isLight = gabomaTheme.type.isLight
         val colorScheme = if (isLight) {
             lightColorScheme(
-                primary = effectiveTheme.accentPrimary,
+                primary = gabomaTheme.accentPrimary,
                 onPrimary = Color.White,
-                background = effectiveTheme.backgroundColor,
-                onBackground = effectiveTheme.textPrimary,
-                surface = effectiveTheme.surfaceColor,
-                onSurface = effectiveTheme.textPrimary,
-                surfaceVariant = effectiveTheme.cardColor,
-                onSurfaceVariant = effectiveTheme.textSecondary,
-                outline = effectiveTheme.uiTokens.sidebarDivider
+                background = gabomaTheme.backgroundColor,
+                onBackground = gabomaTheme.textPrimary,
+                surface = gabomaTheme.surfaceColor,
+                onSurface = gabomaTheme.textPrimary,
+                surfaceVariant = gabomaTheme.cardColor,
+                onSurfaceVariant = gabomaTheme.textSecondary,
+                outline = gabomaTheme.uiTokens.sidebarDivider
             )
         } else {
             darkColorScheme(
-                primary = effectiveTheme.accentPrimary,
-                onPrimary = effectiveTheme.backgroundColor,
-                background = effectiveTheme.backgroundColor,
-                onBackground = effectiveTheme.textPrimary,
-                surface = effectiveTheme.surfaceColor,
-                onSurface = effectiveTheme.textPrimary,
-                surfaceVariant = effectiveTheme.cardColor,
-                onSurfaceVariant = effectiveTheme.textSecondary,
-                outline = effectiveTheme.uiTokens.sidebarDivider
+                primary = gabomaTheme.accentPrimary,
+                onPrimary = gabomaTheme.backgroundColor,
+                background = gabomaTheme.backgroundColor,
+                onBackground = gabomaTheme.textPrimary,
+                surface = gabomaTheme.surfaceColor,
+                onSurface = gabomaTheme.textPrimary,
+                surfaceVariant = gabomaTheme.cardColor,
+                onSurfaceVariant = gabomaTheme.textSecondary,
+                outline = gabomaTheme.uiTokens.sidebarDivider
             )
         }
 
         CompositionLocalProvider(
-            LocalNkyelTheme provides effectiveTheme,
-            LocalNkyelMarkdownColors provides effectiveTheme.markdownColors,
-            LocalNkyelUITokens provides effectiveTheme.uiTokens,
-            LocalNkyelColors provides resolveGabomaColors(effectiveTheme.type)
+            LocalGabomaTheme provides gabomaTheme,
+            LocalGabomaMarkdownColors provides gabomaTheme.markdownColors,
+            LocalGabomaUITokens provides gabomaTheme.uiTokens,
+            LocalGabomaColors provides resolveGabomaColors(gabomaTheme.type)
         ) {
             MaterialTheme(
                 colorScheme = colorScheme,
-                typography = NkyelTypography,
+                typography = GabomaTypography,
                 shapes = RoundedCornerShapes,
                 content = content
             )
         }
     } else {
-        // Legacy path: resolve from NkyelThemeType
-        val currentTheme = theme ?: NkyelThemeType.BLACK_PANTHER
+        // Legacy path: resolve from GabomaThemeType
+        val currentTheme = theme ?: GabomaThemeType.BLACK_PANTHER
         val gabomaColors = resolveGabomaColors(currentTheme)
         val colorScheme = resolveColorScheme(currentTheme, accent)
 
         CompositionLocalProvider(
-            LocalNkyelColors provides gabomaColors
+            LocalGabomaColors provides gabomaColors
         ) {
             MaterialTheme(
                 colorScheme = colorScheme,
-                typography = NkyelTypography,
+                typography = GabomaTypography,
                 shapes = RoundedCornerShapes,
                 content = content
             )
         }
     }
 }
-

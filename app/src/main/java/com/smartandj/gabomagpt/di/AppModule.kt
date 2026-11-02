@@ -5,7 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
-import com.smartandj.gabomagpt.data.local.NkyelDatabase
+import com.smartandj.gabomagpt.data.local.GabomaDatabase
 import com.smartandj.gabomagpt.data.local.dao.ChatDao
 import com.smartandj.gabomagpt.data.remote.GabomaNetworkConfig
 import com.smartandj.gabomagpt.data.repository.ChatRepositoryImpl
@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 // ── Extension: DataStore singleton via delegate ──────────────────────
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "nkyel_settings")
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "gaboma_settings")
 
 // ═══════════════════════════════════════════════════════════════════════
 // REPOSITORY BINDINGS
@@ -89,17 +89,17 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext context: Context): NkyelDatabase {
+    fun provideDatabase(@ApplicationContext context: Context): GabomaDatabase {
         return Room.databaseBuilder(
             context,
-            NkyelDatabase::class.java,
-            "nkyel_database"
+            GabomaDatabase::class.java,
+            "gaboma_database"
         ).fallbackToDestructiveMigration().build()
     }
 
     @Provides
     @Singleton
-    fun provideChatDao(database: NkyelDatabase): ChatDao {
+    fun provideChatDao(database: GabomaDatabase): ChatDao {
         return database.chatDao
     }
 }

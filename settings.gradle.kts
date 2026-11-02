@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "nkyel-app-mobile-kotlin"
+rootProject.name = "nkyel-ai-android"
 include(":app")

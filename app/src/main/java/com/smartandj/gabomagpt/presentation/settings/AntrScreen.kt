@@ -38,7 +38,6 @@ import com.smartandj.gabomagpt.presentation.theme.GabomaIcons
 import com.smartandj.gabomagpt.presentation.theme.LocalGabomaColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.graphics.Color
@@ -396,7 +395,6 @@ fun AntrScreen(
                         .clip(RoundedCornerShape(12.dp))
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
-                            indication = null,
                             onClick = {}
                         )
                         .padding(horizontal = 16.dp, vertical = 14.dp),
@@ -637,7 +635,6 @@ fun SettingsRow(
             .clip(RoundedCornerShape(12.dp))
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
-                indication = null,
                 onClick = onClick
             )
             .padding(horizontal = 16.dp, vertical = 14.dp),
@@ -772,11 +769,10 @@ private fun ThemePickerSheet(
     val gabomaColors = LocalGabomaColors.current
     val themes = listOf(
         GabomaThemeType.BLACK_PANTHER to "⚫ Black Panther",
-        GabomaThemeType.NUIT_LOPE to "🌿 Nuit Lopé (Obsidian)",
+        GabomaThemeType.OBSIDIAN to "🌿 Obsidian",
+        GabomaThemeType.NOIR_OLED to "◾ Noir OLED",
         GabomaThemeType.BLEU_NUIT to "🌙 Bleu Nuit",
-        GabomaThemeType.AURORE_OGOUE to "☀️ Aurore Ogooué",
-        GabomaThemeType.VIOLETTE_MANDRILLE to "💜 Violette Mandrille",
-        GabomaThemeType.NEO_BLANC to "◽ Néo Blanc"
+        GabomaThemeType.BLANC_EMERAUDE to "☀️ Blanc Émeraude"
     )
 
     AlertDialog(
@@ -856,11 +852,11 @@ private fun ForcePickerSheet(
     val gabomaColors = LocalGabomaColors.current
 
     val forces = listOf(
-        Triple("Ñkyel Chui", "Flash · Réponses rapides", Pair(R.drawable.ic_nkyel, AccentAurata)),
-        Triple("Ñkyel Tai", "Raisonnement profond & multimodal", Pair(R.drawable.ic_nkyel, AccentSonar)),
-        Triple("OnyxGris", "Mission agentique autonome & livrables", Pair(R.drawable.ic_nkyel, gabomaColors.primary)),
-        Triple("Recherche Web", "Deep Research & sources ancrées", Pair(R.drawable.ic_nkyel, AccentLoxo)),
-        Triple("Blue Panther", "Mode Créateur Illimité", Pair(R.drawable.ic_nkyel, AccentGris))
+        Triple("Aurata", "Flash · Gratuit · Local", Pair(R.drawable.ic_gaboma_panther, AccentAurata)),
+        Triple("Ñkyel", "Qualité élevée et intelligence", Pair(R.drawable.ic_gaboma_nkyel, AccentSonar)),
+        Triple("OnyxGris", "Power · Énergie OnyxGris", Pair(R.drawable.ic_gaboma_onyx, gabomaColors.primary)),
+        Triple("Wandana", "Deep Research · Mémoire", Pair(R.drawable.ic_gaboma_wandana, AccentLoxo)),
+        Triple("Mode Gris", "Multilingue · Créatif", Pair(R.drawable.ic_gaboma_projet, AccentGris))
     )
 
     AlertDialog(

@@ -8,10 +8,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.smartandj.gabomagpt.presentation.navigation.NkyelNavHost
+import com.smartandj.gabomagpt.presentation.navigation.GabomaNavHost
 import com.smartandj.gabomagpt.presentation.settings.SettingsViewModel
 import com.smartandj.gabomagpt.presentation.settings.ThemePreferencesManager
-import com.smartandj.gabomagpt.presentation.theme.NkyelThemeDefinitions
+import com.smartandj.gabomagpt.presentation.theme.GabomaThemeDefinitions
 import com.smartandj.gabomagpt.presentation.theme.ZionCoreTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -31,15 +31,15 @@ class MainActivity : ComponentActivity() {
 
             // Load the selected 6-theme from preferences
             val selectedThemeType by themePreferencesManager.themeFlow.collectAsState(initial = null)
-            val nkyelTheme = selectedThemeType?.let { NkyelThemeDefinitions.getTheme(it) }
+            val gabomaTheme = selectedThemeType?.let { GabomaThemeDefinitions.getTheme(it) }
 
             // Provide CompositionLocal + apply theme
             ZionCoreTheme(
                 theme         = null,
                 accent        = currentAccent,
-                nkyelTheme    = nkyelTheme,
+                gabomaTheme   = gabomaTheme,
                 content       = {
-                    NkyelNavHost()
+                    GabomaNavHost()
                 }
             )
         }

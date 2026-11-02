@@ -44,25 +44,17 @@ fun ChatTopBar(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // ── GAUCHE : Logo Ñkyel AI (Dauphin) & Titre
+            // ── GAUCHE : Logo IbogaAI & Piste Fantôme
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 IconButton(onClick = onOpenSidebar) {
-                    Icon(
-                        painter = painterResource(id = com.smartandj.gabomagpt.R.drawable.ic_nkyel),
-                        contentDescription = "L'Antre · Ñkyel AI",
-                        tint = Color(0xFFC5A059),
-                        modifier = Modifier.size(26.dp)
+                    IbogaAiIcon(
+                        modifier = Modifier.size(26.dp),
+                        color = gabomaColors.textPrimary
                     )
                 }
-                Text(
-                    text = "Ñkyel AI",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 17.sp,
-                    color = gabomaColors.textPrimary
-                )
                 
                 AnimatedVisibility(visible = isGhostMode, enter = fadeIn(), exit = fadeOut()) {
                     Row(

@@ -1,0 +1,56 @@
+name: Ñkyel Android APK Build
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Ñkyel Android Beta APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Run Unit Tests
+        run: ./gradlew testDebugUnitTest --no-daemon --stacktrace
+
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: Verify Generated APK Exists and Is Nonempty
+        run: |
+          APK_FILE=$(ls app/build/outputs/apk/debug/*.apk | head -n 1)
+          if [ ! -s "$APK_FILE" ]; then
+            echo "ERROR: Generated APK is missing or empty!"
+            exit 1
+          fi
+          echo "Verified APK: $APK_FILE ($(du -h "$APK_FILE" | cut -f1))"
+
+      - name: Compute SHA256 Checksum
+        run: |
+          cd app/build/outputs/apk/debug
+          sha256sum *.apk > Nkyel-Android-Beta.sha256
+          cat Nkyel-Android-Beta.sha256
+
+      - name: Upload Nkyel-Android-Beta APK & Checksum
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nkyel-Android-Beta
+          path: |
+            app/build/outputs/apk/debug/*.apk
+            app/build/outputs/apk/debug/Nkyel-Android-Beta.sha256
+          if-no-files-found: error
+          retention-days: 30

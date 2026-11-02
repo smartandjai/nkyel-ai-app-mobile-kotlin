@@ -91,11 +91,13 @@ fun OnboardingScreen(
                 shadowElevation = 8.dp,
             ) {
                 Box(contentAlignment = Alignment.Center) {
-                    Icon(
-                        painter = androidx.compose.ui.res.painterResource(id = com.smartandj.gabomagpt.R.drawable.ic_nkyel),
-                        contentDescription = "Ñkyel AI",
-                        tint = accentFg,
-                        modifier = Modifier.size(32.dp)
+                    Text(
+                        "G",
+                        style = TextStyle(
+                            fontSize = 26.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = accentFg,
+                        ),
                     )
                 }
             }
@@ -104,7 +106,7 @@ fun OnboardingScreen(
 
             // ── Title ──
             Text(
-                text = "Bienvenue sur Ñkyel AI",
+                text = "Bienvenue sur Gaboma AI",
                 style = TextStyle(
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
@@ -215,7 +217,7 @@ fun OnboardingScreen(
 
             // ── Footer ──
             Text(
-                text = "SMARTANDJ AI TECHNOLOGIES · ÑKYEL AI 2026",
+                text = "SMARTANDJ AI TECHNOLOGIES · GABOMA AI 2026",
                 style = TextStyle(
                     fontSize = 10.sp,
                     fontWeight = FontWeight.SemiBold,
@@ -312,7 +314,7 @@ private fun ConsentStep(
         ) {
             Column(modifier = Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 Text(
-                    text = "En utilisant Ñkyel AI, vous acceptez nos conditions et notre politique de confidentialité.",
+                    text = "En utilisant Gaboma AI, vous acceptez nos conditions et notre politique de confidentialité.",
                     style = TextStyle(fontSize = 13.sp, color = textSecondary, lineHeight = 20.sp),
                 )
 
@@ -330,7 +332,7 @@ private fun ConsentStep(
                         border = BorderStroke(1.dp, border),
                     ) {
                         Text(
-                            "📜 CGU",
+                            "CGU",
                             style = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.Medium, color = accent),
                             modifier = Modifier.padding(12.dp),
                             textAlign = TextAlign.Center,
@@ -347,7 +349,7 @@ private fun ConsentStep(
                         border = BorderStroke(1.dp, border),
                     ) {
                         Text(
-                            "🔒 Confidentialité",
+                            "Confidentialité",
                             style = TextStyle(fontSize = 12.sp, fontWeight = FontWeight.Medium, color = accent),
                             modifier = Modifier.padding(12.dp),
                             textAlign = TextAlign.Center,
@@ -496,7 +498,7 @@ private fun LanguageStep(
         )
 
         // Language cards
-        NKYEL_LANGUAGES.forEach { lang ->
+        GABOMA_LANGUAGES.forEach { lang ->
             val isSelected = lang.code in selectedLanguages
             val isPrimary = lang.code == primaryLocale
 
@@ -613,8 +615,8 @@ private fun TelemetryStep(
 ) {
     Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         StepHeader(
-            title = "Aider à améliorer Ñkyel AI",
-            subtitle = "Vos données d'utilisation peuvent contribuer à améliorer les modèles Ñkyel.",
+            title = "Aider à améliorer Gaboma AI",
+            subtitle = "Vos données d'utilisation peuvent contribuer à améliorer les modèles Gaboma.",
         )
 
         // Telemetry card
@@ -626,7 +628,7 @@ private fun TelemetryStep(
         ) {
             Column(modifier = Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 Text(
-                    text = "Les données de vos conversations pourront être utilisées, de manière anonymisée, pour entraîner les futurs modèles Ñkyel AI. Vous pouvez modifier ce choix à tout moment dans les paramètres.",
+                    text = "Les données de vos conversations pourront être utilisées, de manière anonymisée, pour entraîner les futurs modèles Gaboma AI. Vous pouvez modifier ce choix à tout moment dans les paramètres.",
                     style = TextStyle(fontSize = 13.sp, color = textSecondary, lineHeight = 20.sp),
                 )
 

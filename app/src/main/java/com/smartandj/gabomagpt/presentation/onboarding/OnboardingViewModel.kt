@@ -22,25 +22,20 @@ enum class OnboardingStep {
 }
 
 // ── Gabonese Languages ───────────────────────────────────────
-data class NkyelLanguage(
+data class GabomaLanguage(
     val code: String,
     val name: String,
     val nativeName: String,
     val isPrimary: Boolean = false,
 )
 
-typealias GabomaLanguage = NkyelLanguage
-
-val NKYEL_LANGUAGES = listOf(
-    NkyelLanguage("fr-GA", "Français (Gabon)", "Français", isPrimary = true),
-    NkyelLanguage("fan",   "Fang",             "Fang"),
-    NkyelLanguage("pun",   "Punu",             "Yipunu"),
-    NkyelLanguage("mye",   "Myènè",            "Omyènè"),
-    NkyelLanguage("nzb",   "Nzébi",            "Nzébi"),
+val GABOMA_LANGUAGES = listOf(
+    GabomaLanguage("fr-GA", "Français (Gabon)", "Français", isPrimary = true),
+    GabomaLanguage("fan",   "Fang",             "Fang"),
+    GabomaLanguage("pun",   "Punu",             "Yipunu"),
+    GabomaLanguage("mye",   "Myènè",            "Omyènè"),
+    GabomaLanguage("nzb",   "Nzébi",            "Nzébi"),
 )
-
-val GABOMA_LANGUAGES = NKYEL_LANGUAGES
-
 
 // ── UI State ─────────────────────────────────────────────────
 data class OnboardingUiState(

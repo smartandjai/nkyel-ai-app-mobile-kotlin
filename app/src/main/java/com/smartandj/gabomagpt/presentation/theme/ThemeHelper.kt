@@ -19,8 +19,8 @@ data class ThemeColors(
     val textMuted: Color
 )
 
-fun getThemeColors(theme: NkyelThemeType, accent: AccentColor): ThemeColors {
-    val def = NkyelThemeDefinitions.getTheme(theme)
+fun getThemeColors(theme: GabomaThemeType, accent: AccentColor): ThemeColors {
+    val def = GabomaThemeDefinitions.getTheme(theme)
     val accentColor = accent.color
     val accentLightColor = accentColor.copy(alpha = 0.6f)
 
@@ -34,4 +34,3 @@ fun getThemeColors(theme: NkyelThemeType, accent: AccentColor): ThemeColors {
         textMuted = def.textTertiary
     )
 }
-

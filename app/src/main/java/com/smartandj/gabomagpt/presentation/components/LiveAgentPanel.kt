@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.smartandj.gabomagpt.stream.NkyelStreamEvent
+import com.smartandj.gabomagpt.stream.GabomaStreamEvent
 
 /**
  * LiveAgentPanel — Real-time agent execution monitor.
@@ -32,36 +32,36 @@ import com.smartandj.gabomagpt.stream.NkyelStreamEvent
  *   - Verification badge for Gabonese languages
  *   - Takeover button
  *
- * Consumes a list of NkyelStreamEvents from the SSE client.
+ * Consumes a list of GabomaStreamEvents from the SSE client.
  */
 @Composable
 fun LiveAgentPanel(
-    events: List<NkyelStreamEvent>,
+    events: List<GabomaStreamEvent>,
     isAgentRunning: Boolean,
     onTakeover: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     // Derive state from events
     val currentMode = remember(events) {
-        events.filterIsInstance<NkyelStreamEvent.ModeChange>()
+        events.filterIsInstance<GabomaStreamEvent.ModeChange>()
             .lastOrNull()?.to ?: "standard"
     }
 
     val todos = remember(events) {
-        events.filterIsInstance<NkyelStreamEvent.TodoUpdate>()
+        events.filterIsInstance<GabomaStreamEvent.TodoUpdate>()
             .lastOrNull()?.todos ?: emptyList()
     }
 
     val toolStarts = remember(events) {
-        events.filterIsInstance<NkyelStreamEvent.ToolStart>()
+        events.filterIsInstance<GabomaStreamEvent.ToolStart>()
     }
 
     val toolEnds = remember(events) {
-        events.filterIsInstance<NkyelStreamEvent.ToolEnd>()
+        events.filterIsInstance<GabomaStreamEvent.ToolEnd>()
     }
 
     val verification = remember(events) {
-        events.filterIsInstance<NkyelStreamEvent.Verification>().lastOrNull()
+        events.filterIsInstance<GabomaStreamEvent.Verification>().lastOrNull()
     }
 
     val activeToolIds = remember(toolStarts, toolEnds) {
@@ -151,7 +151,7 @@ fun LiveAgentPanel(
                     items(activeToolIds, key = { it.toolCallId }) { toolStart ->
                         val toolEnd = toolEnds.find { it.toolCallId == toolStart.toolCallId }
                         val toolProgress = events
-                            .filterIsInstance<NkyelStreamEvent.ToolProgress>()
+                            .filterIsInstance<GabomaStreamEvent.ToolProgress>()
                             .lastOrNull { it.toolCallId == toolStart.toolCallId }
 
                         AnimatedVisibility(
@@ -227,7 +227,7 @@ fun LiveAgentPanel(
  */
 @Composable
 private fun VerificationBadge(
-    verification: NkyelStreamEvent.Verification,
+    verification: GabomaStreamEvent.Verification,
     modifier: Modifier = Modifier
 ) {
     Surface(

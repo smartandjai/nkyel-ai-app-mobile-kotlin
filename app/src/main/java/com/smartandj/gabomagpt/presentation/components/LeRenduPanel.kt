@@ -70,8 +70,8 @@ fun LeRenduPanel(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Le Sanctuaire · Rendus & Livrables",
-                    style = MaterialTheme.typography.titleMedium,
+                    text = "Le Rendu",
+                    style = MaterialTheme.typography.titleLarge,
                     color = GabomaColors.AccentBlackPanther
                 )
 
@@ -172,54 +172,21 @@ fun ArtifactDisplay(
             ArtifactType.HTML -> {
                 GabomaCodeBlock(code = content, language = "html")
             }
-            ArtifactType.PDF, ArtifactType.DOCX, ArtifactType.PPTX, ArtifactType.XLSX -> {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(
-                            color = GabomaColors.SurfaceDepth2,
-                            shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp)
-                        )
-                        .padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    val label = when (contentType) {
-                        ArtifactType.PDF -> "Document PDF Officiel"
-                        ArtifactType.DOCX -> "Rapport Word DOCX"
-                        ArtifactType.PPTX -> "Présentation Slides PPTX"
-                        ArtifactType.XLSX -> "Feuille de Calcul Excel XLSX"
-                        else -> "Document Officiel"
-                    }
-                    Text(
-                        text = "💎 $label",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = GabomaColors.AccentBlackPanther
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = content.ifBlank { "Livrable généré par Ñkyel AI avec conformité éditoriale et style souverain." },
-                        style = MaterialTheme.typography.bodySmall,
-                        color = GabomaColors.TextSecondary,
-                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
-                    )
-                }
-            }
         }
     }
 }
 
 enum class ArtifactType {
-    TEXT, CODE, MARKDOWN, JSON, HTML, PDF, DOCX, PPTX, XLSX
+    TEXT, CODE, MARKDOWN, JSON, HTML
 }
 
 /**
  * Extension function for spring animation parameters
  */
-private fun <T> spring(
+fun spring(
     dampingRatio: Float = 0.85f,
     stiffness: Float = 340f
-): androidx.compose.animation.core.SpringSpec<T> = androidx.compose.animation.core.spring(
+) = androidx.compose.animation.core.spring(
     dampingRatio = dampingRatio,
     stiffness = stiffness
 )
-

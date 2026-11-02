@@ -177,12 +177,11 @@ fun MessageActionBar(
                             override fun onDone(utteranceId: String?)  { speaking = false }
                             override fun onError(utteranceId: String?) { speaking = false }
                         })
-                        val speakableContent = content.replace(Regex("<think>[\\s\\S]*?</think>"), "").trim()
                         tts?.speak(
-                            speakableContent.ifEmpty { content },
+                            content,
                             TextToSpeech.QUEUE_FLUSH,
                             null,
-                            "nkyel_tts_$messageId"
+                            "gabomagpt_tts_$messageId"
                         )
                         speaking = true
                         haptic.performHapticFeedback(HapticFeedbackType.LongPress)

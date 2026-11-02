@@ -1,95 +1,124 @@
-/* GabomaGPT · AuthScreen.kt · SmartANDJ AI Technologies
-   Clerk prebuilt AuthView — native sign-in/sign-up with Google support
-   Themed to match the Panther Black design system
+/* Ñkyel AI · AuthScreen.kt · SmartANDJ AI Technologies
+   Approved Luxury Authentication Card · Panther Black & Champagne Gold
+   Clerk prebuilt AuthView — native email OTP/Magic Link with Google support
    Fondateur : Daniel Jonathan ANDJ */
 
 package com.smartandj.gabomagpt.presentation.auth
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.clerk.ui.auth.AuthView
-
-// ── Panther Black palette ─────────────────────────────────
-private val PantherBlack = Color(0xFF020304)
-private val GoldAccent = Color(0xFFC5A059)
-private val TextSecondary = Color(0xFF9CA3AF)
+import com.smartandj.gabomagpt.presentation.theme.GabomaColors
+import kotlinx.coroutines.delay
 
 @Composable
-fun AuthScreen(modifier: Modifier = Modifier) {
+fun AuthScreen(
+    modifier: Modifier = Modifier,
+    viewModel: AuthViewModel = hiltViewModel(),
+) {
+    // Poll auth status after user interacts with AuthView
+    LaunchedEffect(Unit) {
+        while (true) {
+            viewModel.checkAuth()
+            delay(1500)
+        }
+    }
+
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(PantherBlack),
+            .background(GabomaColors.BgBlackPanther),
         contentAlignment = Alignment.Center
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(horizontal = 24.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
         ) {
-            // ── Branding header ──
-            androidx.compose.material3.Icon(
-                painter = androidx.compose.ui.res.painterResource(id = com.smartandj.gabomagpt.R.drawable.ic_nkyel),
-                contentDescription = "Ñkyel AI",
-                tint = GoldAccent,
-                modifier = Modifier.size(48.dp)
-            )
-            Spacer(modifier = Modifier.height(12.dp))
+            // ── Approved Luxury Branding Header ────────────────
+            Surface(
+                shape = CircleShape,
+                color = GabomaColors.AccentBlackPanther,
+                modifier = Modifier.size(48.dp),
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+                    Text(
+                        text = "Ñ",
+                        color = Color.Black,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(14.dp))
+
             Text(
-                text = "L'Antre de",
-                color = TextSecondary,
-                fontSize = 14.sp,
+                text = "Ñkyel",
+                color = GabomaColors.TextPrimary,
+                fontSize = 32.sp,
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 1.sp,
+                textAlign = TextAlign.Center
+            )
+
+            Text(
+                text = "by SmartANDJ AI Technologies",
+                color = GabomaColors.AccentBlackPanther,
+                fontSize = 13.sp,
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center
             )
+
+            Spacer(modifier = Modifier.height(6.dp))
+
             Text(
-                text = "Ñkyel AI",
-                color = GoldAccent,
-                fontSize = 28.sp,
-                fontWeight = FontWeight.ExtraBold,
-                textAlign = TextAlign.Center
-            )
-            Text(
-                text = "Authentification Souveraine",
-                color = TextSecondary,
-                fontSize = 12.sp,
+                text = "Intelligence Agentique Visuelle · Authentification Souveraine",
+                color = GabomaColors.TextSecondary,
+                fontSize = 11.sp,
                 fontWeight = FontWeight.Normal,
                 textAlign = TextAlign.Center
             )
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(28.dp))
 
-            // ── Clerk prebuilt AuthView ──────────────────────
-            // Handles sign-in, sign-up, email verification,
-            // and native Google Sign-In via Credential Manager
-            // all out of the box. Clerk auto-detects configured
-            // social connections from the Dashboard.
-            AuthView()
+            // ── Clerk Prebuilt AuthView Card ───────────────────
+            Surface(
+                shape = RoundedCornerShape(20.dp),
+                color = Color.White,
+                shadowElevation = 8.dp,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Box(modifier = Modifier.padding(16.dp)) {
+                    AuthView()
+                }
+            }
 
             Spacer(modifier = Modifier.height(24.dp))
 
             // ── Footer ───────────────────────────────────────
             Text(
-                text = "POWERED BY SMARTANDJ AI TECH",
-                color = TextSecondary.copy(alpha = 0.5f),
+                text = "SMARTANDJ AI TECHNOLOGIES · STRICT RS256 AUTHENTICATION",
+                color = GabomaColors.TextSecondary.copy(alpha = 0.5f),
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Medium,
-                letterSpacing = 2.sp,
+                letterSpacing = 1.5.sp,
                 textAlign = TextAlign.Center
             )
         }

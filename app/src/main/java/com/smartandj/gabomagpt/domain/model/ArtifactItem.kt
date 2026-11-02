@@ -8,11 +8,5 @@ data class ArtifactItem(
     val type: ArtifactType,
     val content: String,
     val filePath: String? = null,
-    val storageUrl: String? = null,
-    val sizeBytes: Long? = null,
-    val version: Int = 1,
-    val footer: String = "Généré par Ñkyel AI"
+    val footer: String = "Généré par Gaboma AI"
 )
-
-typealias NkyelArtifactItem = ArtifactItem
-typealias NkyelArtifactType = ArtifactType

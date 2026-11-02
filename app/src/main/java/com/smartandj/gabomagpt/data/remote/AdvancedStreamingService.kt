@@ -2,7 +2,7 @@
 package com.smartandj.gabomagpt.data.remote
 
 import com.smartandj.gabomagpt.data.remote.dto.ChatStreamEvent
-import com.smartandj.gabomagpt.domain.model.NkyelChatModel
+import com.smartandj.gabomagpt.domain.model.GabomaChatModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.catch
@@ -30,7 +30,7 @@ class AdvancedStreamingService @Inject constructor(
      */
     fun streamWithBuffering(
         message: String,
-        model: NkyelChatModel
+        model: GabomaChatModel
     ): Flow<ChatStreamEvent> = groqService
         .streamChat(message, model)
         .buffer(capacity = 64) // Buffer up to 64 tokens before blocking
@@ -60,7 +60,7 @@ class AdvancedStreamingService @Inject constructor(
             // Step 2: Stream analysis with Groq 70b
             groqService.streamChat(
                 "Analyse profonde:\n$searchContext\n\nQuestion: $query",
-                NkyelChatModel.WANDANA
+                GabomaChatModel.WANDANA
             ).collect { event ->
                 emit(event)
             }
@@ -87,7 +87,7 @@ class AdvancedStreamingService @Inject constructor(
      */
     fun streamHighPerformance(
         message: String,
-        model: NkyelChatModel
+        model: GabomaChatModel
     ): Flow<ChatStreamEvent> = groqService
         .streamChat(message, model)
         .buffer(capacity = 128) // Larger buffer for high throughput
@@ -105,7 +105,7 @@ class AdvancedStreamingService @Inject constructor(
      */
     fun streamStandard(
         message: String,
-        model: NkyelChatModel
+        model: GabomaChatModel
     ): Flow<ChatStreamEvent> = groqService
         .streamChat(message, model)
         .buffer(capacity = 64)
