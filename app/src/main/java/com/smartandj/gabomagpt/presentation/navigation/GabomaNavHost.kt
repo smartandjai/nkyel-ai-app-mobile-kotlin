@@ -36,7 +36,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
 import com.smartandj.gabomagpt.presentation.auth.AuthScreen
 import com.smartandj.gabomagpt.presentation.auth.AuthState
 import com.smartandj.gabomagpt.presentation.auth.AuthViewModel
@@ -251,7 +251,7 @@ private fun NkyelProductShell(
                         }
 
                         val filteredConversations = conversations.filter {
-                            it.title.contains(missionSearchQuery, ignoreCase = true)
+                            it.title?.contains(missionSearchQuery, ignoreCase = true) == true
                         }
 
                         if (filteredConversations.isEmpty()) {
@@ -296,7 +296,7 @@ private fun NkyelProductShell(
                                         )
                                         Spacer(Modifier.width(10.dp))
                                         Text(
-                                            conv.title.ifBlank { "Mission sans titre" },
+                                            (conv.title ?: "").ifBlank { "Mission sans titre" },
                                             fontSize = 13.sp,
                                             fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal,
                                             maxLines = 1,

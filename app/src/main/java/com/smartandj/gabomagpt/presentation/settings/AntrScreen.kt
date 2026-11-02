@@ -40,6 +40,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.Color
 import com.smartandj.gabomagpt.presentation.theme.*
 import com.smartandj.gabomagpt.presentation.chat.IbogaAiIcon
@@ -395,6 +396,7 @@ fun AntrScreen(
                         .clip(RoundedCornerShape(12.dp))
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
+                            indication = null,
                             onClick = {}
                         )
                         .padding(horizontal = 16.dp, vertical = 14.dp),
@@ -635,6 +637,7 @@ fun SettingsRow(
             .clip(RoundedCornerShape(12.dp))
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
+                indication = null,
                 onClick = onClick
             )
             .padding(horizontal = 16.dp, vertical = 14.dp),
@@ -762,17 +765,18 @@ fun AccentColorSwatch(
 
 @Composable
 private fun ThemePickerSheet(
-    currentTheme: AppTheme,
-    onThemeChange: (AppTheme) -> Unit,
+    currentTheme: GabomaThemeType,
+    onThemeChange: (GabomaThemeType) -> Unit,
     onDismiss: () -> Unit
 ) {
     val gabomaColors = LocalGabomaColors.current
     val themes = listOf(
-        GabomaThemeType.BLACK_PANTHER to "⚫ Black Panther",
-        GabomaThemeType.OBSIDIAN to "🌿 Obsidian",
-        GabomaThemeType.NOIR_OLED to "◾ Noir OLED",
-        GabomaThemeType.BLEU_NUIT to "🌙 Bleu Nuit",
-        GabomaThemeType.BLANC_EMERAUDE to "☀️ Blanc Émeraude"
+        GabomaThemeType.BLACK_PANTHER to "Black Panther",
+        GabomaThemeType.NUIT_LOPE to "Nuit Lopé",
+        GabomaThemeType.AURORE_OGOUE to "Aurore Ogooué",
+        GabomaThemeType.BLEU_NUIT to "Bleu Nuit",
+        GabomaThemeType.VIOLETTE_MANDRILLE to "Violette Mandrille",
+        GabomaThemeType.NEO_BLANC to "Néo Blanc"
     )
 
     AlertDialog(
@@ -788,7 +792,7 @@ private fun ThemePickerSheet(
         },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                themes.forEach { pair -> val key = pair.first; val label = pair.second
+                themes.forEach { (key, label) ->
                     val isSelected = key == currentTheme
                     Surface(
                         onClick = { onThemeChange(key) },

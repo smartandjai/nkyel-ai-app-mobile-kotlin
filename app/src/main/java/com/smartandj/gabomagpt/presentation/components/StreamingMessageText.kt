@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import com.smartandj.gabomagpt.presentation.theme.GabomaColors
 import com.smartandj.gabomagpt.presentation.theme.*
 
@@ -54,7 +55,7 @@ fun StreamingMessageText(
 
             // Smooth alpha animation (160ms, FastOutSlowInEasing)
             tokens.getOrNull(index)?.let { token ->
-                launch {
+                this@LaunchedEffect.launch {
                     token.alphaAnimatable.animateTo(
                         targetValue = 1f,
                         animationSpec = tween(
