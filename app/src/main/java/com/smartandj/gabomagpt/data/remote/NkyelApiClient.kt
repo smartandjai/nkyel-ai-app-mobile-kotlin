@@ -58,7 +58,10 @@ class NkyelApiClient @Inject constructor() {
 
     private suspend fun getToken(): String? {
         return try {
-            Clerk.auth.getToken()
+            when (val res = Clerk.auth.getToken()) {
+                is com.clerk.api.network.serialization.ClerkResult.Success -> res.value
+                else -> null
+            }
         } catch (e: Exception) {
             null
         }
